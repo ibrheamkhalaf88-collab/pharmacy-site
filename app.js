@@ -129,13 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const productsGrid = document.getElementById('productsGrid') || document.getElementById('products-grid');
 
   const categoryImages = {
-    'دواء':    'img/medicine.jpg',
-    'فيتامين': 'img/vitamins.jpg',
-    'بشرة':    'img/skin.jpg',
-    'أدوات':   'img/tools.jpg',
-    'أخرى':    'img/medicine.jpg',
+    'دواء':    'img/medicine.svg',
+    'فيتامين': 'img/vitamins.svg',
+    'بشرة':    'img/skin.svg',
+    'أدوات':   'img/tools.svg',
+    'أخرى':    'img/medicine.svg',
   };
-  const defaultImage = 'img/medicine.jpg';
+  const defaultImage = 'img/medicine.svg';
 
   // ── filterProducts (called from index.html tabs) ──
   window.filterProducts = function(category, btnEl) {

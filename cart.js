@@ -53,22 +53,22 @@ const Cart = {
   },
 
   render() {
-    const bar = document.getElementById('cartBar');
     const itemsEl = document.getElementById('cartItems');
     const totalEl = document.getElementById('cartTotal');
     const countEl = document.getElementById('cartCount');
     const checkoutBtn = document.getElementById('checkoutBtn');
     const clearBtn = document.getElementById('clearCart');
+    if (!itemsEl) return;
 
     if (this.isEmpty()) {
       itemsEl.innerHTML = '<span style="color:#8C8C84;font-size:13px">السلة فارغة — أضف منتجاً للطلب</span>';
-      checkoutBtn.style.display = 'none';
-      clearBtn.style.display = 'none';
+      if (checkoutBtn) checkoutBtn.style.display = 'none';
+      if (clearBtn) clearBtn.style.display = 'none';
       return;
     }
 
-    checkoutBtn.style.display = 'inline-flex';
-    clearBtn.style.display = 'inline-flex';
+    if (checkoutBtn) checkoutBtn.style.display = 'inline-flex';
+    if (clearBtn) clearBtn.style.display = 'inline-flex';
 
     itemsEl.innerHTML = this._items.map(item => `
       <div class="cart-item" data-id="${item.id}">
@@ -81,18 +81,23 @@ const Cart = {
       </div>
     `).join('');
 
-    totalEl.textContent = this.getTotal().toFixed(2);
-    countEl.textContent = this.getItemCount();
+    if (totalEl) totalEl.textContent = this.getTotal().toFixed(2);
+    if (countEl) countEl.textContent = this.getItemCount();
+    if (checkoutBtn && typeof WhatsAppOrder !== 'undefined') {
+      checkoutBtn.href = WhatsAppOrder.getURL();
+    }
   },
 
   // بالشراكات التالية بعد تحميل DOM
   bindEvents() {
-    document.getElementById('cartItems').addEventListener('click', (e) => {
+    const itemsEl = document.getElementById('cartItems');
+    if (itemsEl) itemsEl.addEventListener('click', (e) => {
       const btn = e.target.closest('.cart-item-remove');
       if (btn) this.remove(parseInt(btn.dataset.id));
     });
 
-    document.getElementById('clearCart').addEventListener('click', () => {
+    const clearBtn = document.getElementById('clearCart');
+    if (clearBtn) clearBtn.addEventListener('click', () => {
       if (confirm('مسح كل المنتجات من السلة؟')) {
         this.clear();
       }
