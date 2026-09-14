@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const imgSrc = p.image || categoryImages[cat] || defaultImage;
         const imgAlt = cat === 'أدوات' ? 'أدوات طبية' : cat;
         return `
-        <div class="product-card ${cat.replace(/\s/g,'')}" data-category="${cat}">
+        <div class="product-card animate-on-scroll ${cat.replace(/\s/g,'')}" data-category="${cat}">
           <img src="${imgSrc}" alt="${imgAlt}" class="product-img" loading="lazy" onerror="this.src='${defaultImage}'">
           <div class="product-body">
             <h3 class="product-name">${p.name}</h3>
@@ -179,6 +179,24 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>`;
       }).join('');
+
+      // Observe freshly rendered cards so scroll animations apply to them too
+      const freshCards = productsGrid.querySelectorAll('.product-card.animate-on-scroll:not(.reveal)');
+      if (freshCards.length) {
+        if (!prefersReducedMotion) {
+          const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('reveal');
+                cardObserver.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.12, rootMargin: '-40px 0px' });
+          freshCards.forEach(el => cardObserver.observe(el));
+        } else {
+          freshCards.forEach(el => el.classList.add('reveal'));
+        }
+      }
     } catch (err) {
       console.error('Error loading products:', err);
     }
