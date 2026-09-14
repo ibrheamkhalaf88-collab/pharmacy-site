@@ -605,8 +605,9 @@ async function renderProductList(){
     };
   });
 }
-function editProduct(id){
-  const products = (await loadProducts()).products || [];
+async function editProduct(id){
+  const data = await loadProducts();
+  const products = (data && data.products) || [];
   const p = products.find(p=>p.id==id);
   if(!p) return;
   document.getElementById('pName').value = p.name;
@@ -742,7 +743,7 @@ document.getElementById('replyWhatsappBtn').onclick = async () => {
   const settings = await loadSettings();
   const s = settings?.settings || {};
   const waNumber = s.whatsapp_number || s.phone || '9705952224444';
-  const items = (o.items||[]).map(i=>`${i.name} × ${i.quantity} — ${(i.price*i.quantity).toFixed(2)} شيكل`).join('\n');
+  const items = (o.items||[]).map(i=>`${i.name} × ${i.quantity} — ${(i.price*i.quantity).toFixed(2)} شيكل`).join(String.fromCharCode(10));
   const msg = `🚨 طلب #${o.id}\nالزبون: ${o.customer_name||'—'}\nالهاتف: ${o.customer_phone||'—'}\n\nالمنتجات:\n${items}\n\nالمجموع: ${(o.total||0).toFixed(2)} شيكل`;
   const url = `https://wa.me/${waNumber.replace(/[^0-9+]/g,'')}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
