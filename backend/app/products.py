@@ -41,11 +41,19 @@ def get_product_by_id(product_id: int) -> dict:
             return p
     raise HTTPException(status_code=404, detail=f"المنتج {product_id} غير موجود")
 
-def build_whatsapp_message(items: list[dict], customer_name: str = "") -> str:
-    """Build WhatsApp message with pharmacy name from settings"""
+def build_whatsapp_message(items: list[dict], customer_name: str = "",
+                          branch_info: dict = None) -> str:
+    """Build WhatsApp message with pharmacy name from settings + branch"""
     settings = get_settings()
     pharmacy_name = settings.get("name", "صيدلية السلاق")
-    lines = [pharmacy_name, "", "طلبية من الواتساب:"]
+    lines = [f"🚨 {pharmacy_name}", ""]
+
+    if branch_info:
+        lines.append(f"📍 الفرع: {branch_info.get('branch_name', branch_info.get('branch', 'الفرع الرئيسي'))}")
+        lines.append(f"🗺️ عشان التوصيل: {branch_info.get('delivery_zone', '')}")
+        lines.append("")
+
+    lines.append("طلبية من الواتساب:")
     for item in items:
         lines.append(f"{item['name']} × {item['quantity']} — {item['price']:.2f} شيكل")
     lines.append("")
@@ -54,7 +62,6 @@ def build_whatsapp_message(items: list[dict], customer_name: str = "") -> str:
     if customer_name:
         lines.append(f"الاسم: {customer_name}")
     lines.append("")
-    lines.append("الاسم: ")
     return "\n".join(lines)
 
 def compute_total(items: list[dict]) -> float:

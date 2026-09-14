@@ -8,6 +8,7 @@ from app.products import (
     load_orders, save_orders, add_order,
     get_settings, save_settings, add_product_image,
 )
+from app.branch import find_nearest_branch_by_phone
 from urllib.parse import quote
 from datetime import datetime, timezone
 
@@ -93,7 +94,9 @@ def create_order(order: OrderRequest):
         })
 
     total = compute_total(order_items)
-    message = build_whatsapp_message(order_items, order.customer_name or "")
+    # تحديد الفرع الأقرب بناءً على رقم الهاتف
+    branch_info = find_nearest_branch_by_phone(order.customer_phone or "")
+    message = build_whatsapp_message(order_items, order.customer_name or "", branch_info)
     encoded_message = quote(message, safe="")
 
     settings = get_settings()
@@ -109,6 +112,9 @@ def create_order(order: OrderRequest):
         "item_count": len(order_items),
         "whatsapp_url": whatsapp_url,
         "message": message,
+        "branch": branch_info.get("branch", ""),
+        "branch_name": branch_info.get("branch_name", ""),
+        "delivery_zone": branch_info.get("delivery_zone", ""),
     }
 
     saved = add_order(order_data)
@@ -230,7 +236,9 @@ async def send_order_whatsapp(order_id: int):
             "whatsapp_url": order.get("whatsapp_url", "")
         }
 
-    message = build_whatsapp_message(order.get("items", []), order.get("customer_name", ""))
+    message = build_whatsapp_message(order.get("items", []), order.get("customer_name", ""),
+                                       {"branch": order.get("branch", ""), "branch_name": order.get("branch_name", ""),
+                                        "delivery_zone": order.get("delivery_zone", "")})
     encoded = quote(message, safe="")
 
     url = f"{base_url}/{phone_id}/messages"
@@ -447,7 +455,7 @@ td.actions{text-align:right}
       </div>
       <div class="table-wrap" id="ordersTableWrap">
         <table>
-          <thead><tr><th>#</th><th>الزبون</th><th>الهاتف</th><th>المنتجات</th><th>المجموع</th><th>الحالة</th><th>وقت الطلب</th><th>إجراءات</th></tr></thead>
+          <thead><tr><th>#</th><th>الزبون</th><th>الهاتف</th><th>الفرع</th><th>المنتجات</th><th>المجموع</th><th>الحالة</th><th>وقت الطلب</th><th>إجراءات</th></tr></thead>
           <tbody id="ordersBody"></tbody>
         </table>
       </div>
@@ -693,6 +701,9 @@ async function renderOrders(filter='all') {
       <td>#${o.id}</td>
       <td class="name">${o.customer_name || '—'}</td>
       <td>${o.customer_phone || '—'}</td>
+      <td><span style="font-size:12px;color:var(--green-700);font-weight:600">${o.branch_name || 'الفرع الرئيسي'}</span>
+          <span style="display:block;font-size:11px;color:var(--gray-600)">${o.branch || ''} · ${o.delivery_zone ? o.delivery_zone.split('·')[0].trim() : ''}</span>
+      </td>
       <td>${o.items ? o.items.map(i=>i.name+' ×'+i.quantity).join('<br>') : '—'}</td>
       <td class="price">${o.total.toFixed(2)} شيكل</td>
       <td><span class="badge ${o.status||'pending'}">${o.status||'pending'}</span></td>
@@ -829,6 +840,8 @@ function showOrderModal(order) {
     <div style="margin-bottom:16px">
       <div style="display:flex;justify-content:space-between;padding:8px 0"><span style="color:var(--gray-600)">الزبون</span><strong style="font-size:15px">${order.customer_name||'—'}</strong></div>
       <div style="display:flex;justify-content:space-between;padding:8px 0"><span style="color:var(--gray-600)">الهاتف</span><strong style="font-size:15px">${order.customer_phone||'—'}</strong></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0"><span style="color:var(--gray-600)">الفرع</span><strong style="font-size:15px;color:var(--green-700)">${order.branch_name || 'الفرع الرئيسي'} — ${order.branch || ''}</strong></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0"><span style="color:var(--gray-600)">منطقة التوصيل</span><strong style="font-size:15px">${order.delivery_zone || '—'}</strong></div>
       <div style="display:flex;justify-content:space-between;padding:8px 0"><span style="color:var(--gray-600)">ملاحظات</span><strong style="font-size:15px">${order.notes||'—'}</strong></div>
       <div style="display:flex;justify-content:space-between;padding:8px 0"><span style="color:var(--gray-600)">عدد المنتجات</span><strong style="font-size:15px">${order.item_count||0}</strong></div>
       <div style="display:flex;justify-content:space-between;padding:8px 0"><span style="color:var(--gray-600)">المجموع</span><strong style="font-size:18px;color:var(--green-700)">${order.total.toFixed(2)} شيكل</strong></div>
