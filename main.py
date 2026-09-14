@@ -2,8 +2,8 @@
 يقدّم الـ API endpoints + يخدم الـ frontend الثابت من مجلد frontend/.
 """
 from fastapi import FastAPI
-from app.api import router
-from app.config import BACKEND_PORT
+from api import router
+from config import BACKEND_PORT
 
 app = FastAPI(
     title="صيدلية السلاق API",

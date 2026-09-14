@@ -1,8 +1,16 @@
-# Python
+# Old backend/frontend subfolders (consolidated)
+backend/
+frontend/
+docs/
+
+# Python bytecode
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.pyc
+*.pyo
+*.pyd
 .Python
 build/
 develop-eggs/
@@ -19,12 +27,15 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.mo
+*.pyc
 
 # Virtual environments
 venv/
 ENV/
 env/
 .venv/
+venv.bak/
 
 # IDE
 .idea/
@@ -36,14 +47,22 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
+~$*
 
 # Environment files (secret)
 .env
 !.env.example
 
-# supabase local (إذا استخدمت supabase link)
+# Test/verification
+test_icons.html
+verify_css.py
+
+# Supabase local
 supabase/
 !supabase_schema.sql
 
-# Python bytecode in backend
-backend/app/__pycache__/
+# MCP
+.mcp.json
+opencode.json
+opencode.jsonc

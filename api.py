@@ -1,14 +1,14 @@
 """API routes — endpoints لـ المنتجات والطلبات والإدارة."""
 from fastapi import APIRouter, HTTPException, Body, Request
 from fastapi.responses import HTMLResponse
-from app.models import Product, OrderRequest, OrderResponse, CartItem
-from app.products import (
+from models import Product, OrderRequest, OrderResponse, CartItem
+from products import (
     load_products, save_products, get_product_by_id,
     build_whatsapp_message, compute_total,
     load_orders, save_orders, add_order,
     get_settings, save_settings, add_product_image,
 )
-from app.branch import find_nearest_branch_by_phone
+from branch import find_nearest_branch_by_phone
 from urllib.parse import quote
 from datetime import datetime, timezone
 

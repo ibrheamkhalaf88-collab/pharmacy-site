@@ -217,9 +217,79 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ═══════════════════════════════════════════════
-  // 8. Init
-  // ═══════════════════════════════════════════════
-  loadProducts();
-  if (typeof Cart !== 'undefined') Cart.render();
+// ═══════════════════════════════════════════════
+// 8. Scroll Progress Bar
+// ═══════════════════════════════════════════════
+const scrollProgress = document.createElement('div');
+scrollProgress.className = 'scroll-progress';
+document.body.appendChild(scrollProgress);
+
+// ═══════════════════════════════════════════════
+// 9. Page Load Stagger Animation
+// ═══════════════════════════════════════════════
+document.querySelectorAll('.page-load-anim').forEach((el, i) => {
+  el.style.transitionDelay = `${i * 0.1}s`;
+  setTimeout(() => el.classList.add('anim-in'), 80 + i * 100);
+});
+
+// ═══════════════════════════════════════════════
+// 10. Stagger Children Animation
+// ═══════════════════════════════════════════════
+document.querySelectorAll('.stagger-children').forEach(container => {
+  if (!prefersReducedMotion) {
+    const children = container.querySelectorAll(':scope > *');
+    children.forEach((child, i) => {
+      child.style.transitionDelay = `${i * 0.08}s`;
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          container.classList.add('reveal');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    observer.observe(container);
+  } else {
+    container.classList.add('reveal');
+  }
+});
+
+// ═══════════════════════════════════════════════
+// 11. Toast Notification System
+// ═══════════════════════════════════════════════
+window.showToast = function(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.style.cssText = `
+    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateX(2rem);
+    background: var(--green-900); color: #fff; padding: 12px 24px;
+    border-radius: 10px; font-size: 14px; font-weight: 600; z-index: 9999;
+    box-shadow: var(--shadow-lg); transition: opacity .3s, transform .3s;
+    opacity: 0; font-family: 'Tajawal', system-ui, sans-serif;
+  `;
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => { toast.style.opacity = '1'; toast.style.transform = 'translateX(-50%) translateX(0)'; });
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(-50%) translateX(-2rem)'; setTimeout(() => toast.remove(), 300); }, 3000);
+};
+
+// ═══════════════════════════════════════════════
+// 12. Cart Bar Animation
+// ═══════════════════════════════════════════════
+const cartBar = document.querySelector('.cart-bar');
+if (cartBar && typeof Cart !== 'undefined') {
+  const origRender = Cart.render.bind(Cart);
+  Cart.render = function() {
+    origRender();
+    const hasItems = document.querySelectorAll('.cart-item').length > 0;
+    cartBar.classList.toggle('visible', hasItems);
+  };
+}
+
+// ═══════════════════════════════════════════════
+// 8. Init
+// ═══════════════════════════════════════════════
+loadProducts();
+if (typeof Cart !== 'undefined') Cart.render();
 });
