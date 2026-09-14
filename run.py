@@ -18,6 +18,14 @@ if not (FRONTEND_DIR / "index.html").exists():
     sys.exit(1)
 
 from main import app as backend_app
+from fastapi import Request
+
+# DEV: امنع كاش المتصفح حتى يرى المطور أحدث الملفات دائماً
+@backend_app.middleware("http")
+async def no_cache(request: Request, call_next):
+    resp = await call_next(request)
+    resp.headers["Cache-Control"] = "no-store"
+    return resp
 
 backend_app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
 

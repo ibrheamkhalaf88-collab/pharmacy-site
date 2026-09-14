@@ -269,6 +269,18 @@ document.addEventListener('DOMContentLoaded', () => {
 const scrollProgress = document.createElement('div');
 scrollProgress.className = 'scroll-progress';
 document.body.appendChild(scrollProgress);
+// Fallback for browsers without scroll-driven animations support
+if (!window.CSS || !CSS.supports || !CSS.supports('animation-timeline: scroll()')) {
+  scrollProgress.style.display = 'block';
+  const updateProgress = () => {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const p = max > 0 ? h.scrollTop / max : 0;
+    scrollProgress.style.transform = 'scaleX(' + p + ')';
+  };
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+}
 
 // ═══════════════════════════════════════════════
 // 9. Page Load Stagger Animation
