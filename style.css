@@ -665,14 +665,20 @@ button { cursor:pointer; font-family:inherit }
   opacity:1;
   transform:none;
 }
-.slide-left { transform:translateX(30px) }
+.slide-left { transform:translateX(64px) }
 .slide-left.reveal { transform:none }
-.slide-right { transform:translateX(-30px) }
+.slide-right { transform:translateX(-64px) }
 .slide-right.reveal { transform:none }
 .scale-in { transform:scale(.92) }
 .scale-in.reveal { transform:none }
 .fade-up { transform:translateY(20px) }
 .fade-up.reveal { transform:none }
+
+/* Alternating side entrances for product cards: odd from right, even from left */
+#products-grid > .product-card:nth-child(odd) { transform:translateX(64px) }
+#products-grid > .product-card:nth-child(even) { transform:translateX(-64px) }
+#products-grid > .product-card.reveal:nth-child(odd),
+#products-grid > .product-card.reveal:nth-child(even) { transform:none }
 
 /* Page load stagger */
 .page-load-anim {
@@ -944,9 +950,9 @@ p { text-wrap: pretty; }
   transition: opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1);
 }
 .animate-on-scroll.reveal { opacity: 1; transform: none; }
-.slide-left { transform: translateX(30px); }
+.slide-left { transform: translateX(64px); }
 .slide-left.reveal { transform: none; }
-.slide-right { transform: translateX(-30px); }
+.slide-right { transform: translateX(-64px); }
 .slide-right.reveal { transform: none; }
 .scale-in { transform: scale(.92); }
 .scale-in.reveal { transform: none; }
