@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  lint-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Syntax check Python files
+        run: python -m py_compile main.py && python -m py_compile api.py && python -m py_compile config.py && python -m py_compile models.py && python -m py_compile products.py && python -m py_compile branch.py && echo "All Python files OK"
+
+      - name: Check JS syntax (Node)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: node --check app.js && node --check cart.js && node --check whatsapp.js && echo "All JS files OK"
+
+      - name: Health check
+        run: |
+          uvicorn main:app --host 0.0.0.0 --port 8000 &
+          sleep 3
+          curl -sf http://localhost:8000/health || exit 1
+          curl -sf http://localhost:8000/ || exit 1
+          echo "Health check passed"

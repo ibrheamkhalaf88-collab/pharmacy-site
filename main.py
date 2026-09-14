@@ -1,7 +1,9 @@
 """صيدلية السلاق — FastAPI application.
-يقدّم الـ API endpoints + يخدم الـ frontend الثابت من مجلد frontend/.
+يقدّم الـ API endpoints + يخدم الـ frontend الثابت.
 """
+from pathlib import Path
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from api import router
 from config import BACKEND_PORT
 
@@ -18,7 +20,11 @@ app.include_router(router)
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "name": "صيدلية السلاق API", "port": BACKEND_PORT, "backend_port": BACKEND_PORT}
+    return {"status": "ok", "name": "صيدلية السلاق API"}
+
+# Serve frontend static files (index.html, style.css, app.js, img/, etc.)
+FRONTEND_DIR = Path(__file__).parent
+app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
 
 if __name__ == "__main__":
     import uvicorn
