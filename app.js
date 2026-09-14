@@ -126,15 +126,34 @@ document.addEventListener('DOMContentLoaded', () => {
   // ═══════════════════════════════════════════════
   // 6. Products loading + filters
   // ═══════════════════════════════════════════════
-  const productsGrid = document.getElementById('productsGrid');
+  const productsGrid = document.getElementById('productsGrid') || document.getElementById('products-grid');
 
   const categoryImages = {
     'دواء':    'img/medicine.jpg',
     'فيتامين': 'img/vitamins.jpg',
     'بشرة':    'img/skin.jpg',
     'أدوات':   'img/tools.jpg',
+    'أخرى':    'img/medicine.jpg',
   };
   const defaultImage = 'img/medicine.jpg';
+
+  // ── filterProducts (called from index.html tabs) ──
+  window.filterProducts = function(category, btnEl) {
+    if (btnEl) {
+      document.querySelectorAll('.product-tab-btn').forEach(b => {
+        b.classList.remove('bg-primary','text-on-primary','font-bold');
+        b.classList.add('text-on-surface-variant');
+      });
+      btnEl.classList.add('bg-primary','text-on-primary','font-bold');
+      btnEl.classList.remove('text-on-surface-variant');
+    }
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(c => {
+      const match = category === 'all' || c.dataset.category === category;
+      c.style.display = match ? '' : 'none';
+      c.style.opacity = match ? '1' : '.4';
+    });
+  };
 
   async function loadProducts() {
     if (!productsGrid) return;
@@ -145,16 +164,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
       productsGrid.innerHTML = products.map(p => {
         const cat = p.category || 'أخرى';
-        const imgSrc = categoryImages[cat] || defaultImage;
+        const imgSrc = p.image || categoryImages[cat] || defaultImage;
         const imgAlt = cat === 'أدوات' ? 'أدوات طبية' : cat;
         return `
-        <div class="product-card ${p.category ? 'cat-' + p.category.replace(/\s/g,'') : ''}" data-category="${cat}">
-          <img src="${imgSrc}" alt="${imgAlt}" class="product-img" loading="lazy">
+        <div class="product-card ${cat.replace(/\s/g,'')}" data-category="${cat}">
+          <img src="${imgSrc}" alt="${imgAlt}" class="product-img" loading="lazy" onerror="this.src='${defaultImage}'">
           <div class="product-body">
             <h3 class="product-name">${p.name}</h3>
             <p class="product-desc">${p.desc}</p>
             <div class="product-price">${p.price.toFixed(2)} <span>شيكل</span></div>
-            <button class="btn-in-cart" onclick="addToCart(${JSON.stringify(p).replace(/\"/g,'&quot;')})">
+            <button class="btn-in-cart" onclick="addToCart(${JSON.stringify(p).replace(/"/g,'&quot;')})">
               أضف للطلب
             </button>
           </div>
@@ -165,11 +184,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  window.addToCart = function(product) {
-    if (typeof Cart !== 'undefined') {
+  // Keep inline (static cards) addToCart(this, name) working alongside
+  // dynamic addToCart(productObj) — dispatch by argument type.
+  const legacyAddToCart = (typeof window.addToCart === 'function') ? window.addToCart : null;
+  window.addToCart = function(productOrBtn, productName) {
+    if (productOrBtn && productOrBtn.tagName) {
+      if (legacyAddToCart) return legacyAddToCart(productOrBtn, productName);
+      if (window.showToast) window.showToast('تمت الإضافة: ' + (productName || ''));
+      return;
+    }
+    const product = productOrBtn;
+    if (typeof Cart !== 'undefined' && product && product.id) {
       Cart.add(product);
     }
-    const btn = event && event.target ? event.target.closest('.btn-in-cart') : null;
+    const btn = (typeof event !== 'undefined' && event && event.target) ? event.target.closest('.btn-in-cart') : null;
     if (btn) {
       btn.textContent = '✓ في السلة';
       btn.disabled = true;
