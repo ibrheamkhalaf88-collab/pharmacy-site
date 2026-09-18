@@ -68,6 +68,7 @@ ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE settings ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS products_select_any ON products;
+DROP POLICY IF EXISTS products_select_anon ON products;
 CREATE POLICY products_select_anon ON products FOR SELECT TO anon, authenticated USING (true);
 
 DROP POLICY IF EXISTS products_service_write ON products;
@@ -78,6 +79,8 @@ DROP POLICY IF EXISTS orders_select_any ON orders;
 DROP POLICY IF EXISTS settings_select_any ON settings;
 DROP POLICY IF EXISTS orders_service_write ON orders;
 DROP POLICY IF EXISTS settings_service_write ON settings;
+DROP POLICY IF EXISTS orders_service_all ON orders;
+DROP POLICY IF EXISTS settings_service_all ON settings;
 
 CREATE POLICY orders_service_all ON orders FOR ALL TO service_role USING (true) WITH CHECK (true);
 CREATE POLICY settings_service_all ON settings FOR ALL TO service_role USING (true) WITH CHECK (true);
