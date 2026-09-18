@@ -75,16 +75,26 @@ venv\Scripts\python -m uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
 
 ## النشر (Render)
 
-- `render.yaml` جاهز: نقطة الدخول `backend.app.main:app`، والصحة على `/api/health`.
-- أضف هذه الـ env vars في Render: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_ANON_KEY`, `ADMIN_PASSWORD_HASH`, `TOKEN_SECRET` (و `COOKIE_SECURE=true`).
-- لتفعيل deploy hook: أضف variable `RENDER_DEPLOY_HOOK` (رابط Deploy Hook من Render) وسيتفعل `deploy-render.yml`.
+- الخدمة الحية: `pharmacy-site-hy99` — https://pharmacy-site-hy99.onrender.com — أمر التشغيل `uvicorn backend.app.main:app --host 0.0.0.0 --port 10000`، الصحة على `/api/health`.
+- **Auto-deploy ناتيف**: خدمة Render مربوطة بالريبو (`autoDeploy=yes`) → كل `git push` على `master` يبني وينشر نسخة جديدة تلقائيًا (لاحظ `trigger=new_commit` في تاريخ الـ deploys). لا حاجة لأي deploy hook.
+- env vars في Render (من `.env`): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_ANON_KEY`, `ADMIN_PASSWORD_HASH`, `TOKEN_SECRET`, `TOKEN_TTL_HOURS`, `COOKIE_SECURE`.
+
+## دورة النشر من طرفك (إجراء وحيد: push)
+
+1. عدّل ما تشاء محليًا في `pharmacy_site`.
+2. `git add . && git commit -m "..." && git push origin master`
+3. تلقائيًا وبلا أي تدخل:
+   - **CI** يفحص كل شيء (JS syntax + boot + smoke + تأمين ملفات).
+   - إن كان التعديل على `supabase/migrations/**` فقط → **المزادات تُطبق** على قاعدة البيانات.
+   - **Render** يبني وينشر النسخة الجديدة → الموقع يبقى حي.
 
 ## GitHub Secrets للمداومة
 
 في Settings → Secrets and variables → Actions:
-- `SUPABASE_ACCESS_TOKEN` — PAT من dashboard/account/tokens
-- `SUPABASE_PROJECT_REF` — معرّف المشروع
-- (ليست أسراراً بل Variables) `RENDER_DEPLOY_HOOK` للـ deploy
+- `SUPABASE_ACCESS_TOKEN` — PAT من dashboard/account/tokens (مثبّت حالياً)
+- `SUPABASE_PROJECT_REF` — معرّف المشروع (مثبّت حالياً)
+- **مُزيل**: `RENDER_DEPLOY_HOOK` — لم نعد بحاجته؛ النشر ناتيف عبر Render.
+- للتعديل: `SUPABASE_ACCESS_TOKEN`/`SUPABASE_PROJECT_REF` ← حيوانات هي الـ Secrets المثبّتة؛ استبدلهما عبر `gh secret set` عند الحاجة.
 
 ## ملاحظات أمان (طبّقت في هذا البناء)
 
