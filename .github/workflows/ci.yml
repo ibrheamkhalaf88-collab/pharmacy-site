@@ -37,14 +37,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: node --check frontend/assets/app.js && node --check frontend/assets/cart.js && node --check frontend/assets/api.js && node --check frontend/assets/admin.js && echo "JS OK"
+      - run: node --check frontend/assets/app.js && node --check frontend/assets/cart.js && node --check frontend/assets/whatsapp.js && node --check frontend/assets/api.js && node --check frontend/assets/admin.js && echo "JS OK"
 
       - name: Boot server + smoke test
         run: |
           uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 &
           sleep 4
           curl -sf http://127.0.0.1:8000/api/health || exit 1
-          curl -sf http://127.0.0.1:8000/ | grep -q "صيدلية السلاق" || exit 1
+          curl -sf http://127.0.0.1:8000/ | grep -qi "SALLAQ" || exit 1
           curl -sf http://127.0.0.1:8000/admin | grep -q "لوحة إدارة" || exit 1
           # تأكد ألا شيء مكشوف
           for p in .env api.py products.json requirements.txt; do
