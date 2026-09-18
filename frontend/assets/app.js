@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Stagger delay: each card gets idx * 0.08s (80ms apart)
         const stagger = (idx % 12) * 0.08;
         return `
-        <div class="product-card animate-on-scroll ${cat.replace(/\s/g,'')}" data-category="${cat}" data-stagger="${stagger.toFixed(2)}" style="opacity:0; transform:translateY(20px) scale(0.96) ${idx % 2 ? 'translateX(-6px)' : 'translateX(6px)'}; transition-delay:${stagger}s">
+        <div class="product-card ${cat.replace(/\s/g,'')}" data-category="${cat}" style="opacity:0; transform:translateY(20px) scale(0.96) ${idx % 2 ? 'translateX(-6px)' : 'translateX(6px)'}; transition-delay:${stagger}s">
           <img src="${imgSrc}" alt="${imgAlt}" class="product-img" loading="lazy" onerror="this.src='${defaultImage}'">
           <div class="product-body">
             <h3 class="product-name">${p.name}</h3>
