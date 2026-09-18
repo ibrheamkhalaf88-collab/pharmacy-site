@@ -22,6 +22,15 @@ app.include_router(router)
 def health():
     return {"status": "ok", "name": "صيدلية السلاق API"}
 
+# ── Admin dashboard redirect ──
+# البان节 الإدارية موجودة تحت /api/admin (عبر الـ router prefix).
+# نRedirect من /admin إلى /api/admin للوصول إليها من العنوان الرئيسي.
+from fastapi.responses import RedirectResponse
+
+@app.get("/admin")
+def admin_redirect():
+    return RedirectResponse(url="/api/admin", status_code=302)
+
 # Serve frontend static files (index.html, style.css, app.js, img/, etc.)
 FRONTEND_DIR = Path(__file__).parent
 app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")

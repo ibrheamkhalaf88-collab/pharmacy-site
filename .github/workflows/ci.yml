@@ -20,19 +20,35 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Syntax check Python files
-        run: python -m py_compile main.py && python -m py_compile api.py && python -m py_compile config.py && python -m py_compile models.py && python -m py_compile products.py && python -m py_compile branch.py && echo "All Python files OK"
+      - name: Syntax check Python files (backend)
+        run: |
+          python -m compileall -q backend scripts && echo "Python OK"
 
-      - name: Check JS syntax (Node)
+      - name: Import check (app must boot)
+        run: |
+          python - <<'EOF'
+          from backend.app.main import app
+          routes = [getattr(r, "path", "") for r in app.routes]
+          assert "/api/products" in routes and "/api/orders" in routes
+          print("import OK", len(routes), "routes")
+          EOF
+
+      - name: Check JS syntax (frontend)
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: node --check app.js && node --check cart.js && node --check whatsapp.js && echo "All JS files OK"
+      - run: node --check frontend/assets/app.js && node --check frontend/assets/cart.js && node --check frontend/assets/api.js && node --check frontend/assets/admin.js && echo "JS OK"
 
-      - name: Health check
+      - name: Boot server + smoke test
         run: |
-          uvicorn main:app --host 0.0.0.0 --port 8000 &
-          sleep 3
-          curl -sf http://localhost:8000/health || exit 1
-          curl -sf http://localhost:8000/ || exit 1
-          echo "Health check passed"
+          uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 &
+          sleep 4
+          curl -sf http://127.0.0.1:8000/api/health || exit 1
+          curl -sf http://127.0.0.1:8000/ | grep -q "صيدلية السلاق" || exit 1
+          curl -sf http://127.0.0.1:8000/admin | grep -q "لوحة إدارة" || exit 1
+          # تأكد ألا شيء مكشوف
+          for p in .env api.py products.json requirements.txt; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:8000/$p")
+            [ "$code" = "404" ] || { echo "EXPOSED: $p -> $code"; exit 1; }
+          done
+          echo "Smoke OK"

@@ -438,7 +438,186 @@ button { cursor:pointer; font-family:inherit }
 .filter-tab.active {
   background:var(--green-700); color:#fff; border-color:var(--green-700);
 }
-.products-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px }
+
+/* ═══ PRODUCT CARDS — Drop-in staggered entrance ═══ */
+.products-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+/* Base hidden state for all product cards */
+.products-grid .product-card {
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  filter: blur(2px);
+  transition:
+    opacity 0.55s cubic-bezier(.2, .7, .2, 1),
+    transform 0.55s cubic-bezier(.2, .7, .2, 1),
+    filter 0.4s ease;
+  will-change: opacity, transform, filter;
+}
+
+/* Alternating sides: odd from right, even from left — adds hand-placed feel */
+.products-grid .product-card:nth-child(odd) {
+  transform: translateY(20px) scale(0.96) translateX(-8px);
+}
+
+.products-grid .product-card:nth-child(even) {
+  transform: translateY(20px) scale(0.96) translateX(8px);
+}
+
+/* Reveal state — JS adds .reveal, CSS transitions to natural state */
+.products-grid .product-card.reveal {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
+/* Stagger via inline style (applied by JS observer) */
+.products-grid .product-card[data-stagger] { transition-delay: attr(data-stagger s); }
+
+/* ═══ SERVICE CARDS — Drop with rotation ═══ */
+.services-grid .service-card {
+  opacity: 0;
+  transform: translateY(16px) scale(0.97) rotate(-0.5deg);
+  transition:
+    opacity 0.55s cubic-bezier(.2, .7, .2, 1),
+    transform 0.55s cubic-bezier(.2, .7, .2, 1);
+  will-change: opacity, transform;
+}
+
+.services-grid .service-card:nth-child(odd) {
+  transform: translateY(16px) scale(0.97) rotate(-1deg);
+}
+
+.services-grid .service-card:nth-child(even) {
+  transform: translateY(16px) scale(0.97) rotate(0.8deg);
+}
+
+.services-grid .service-card.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ═══ CATEGORY CARDS — Scale-in ═══ */
+.categories-grid .category-card {
+  opacity: 0;
+  transform: scale(0.88);
+  transition:
+    opacity 0.5s cubic-bezier(.2, .7, .2, 1),
+    transform 0.5s cubic-bezier(.2, .7, .2, 1);
+  will-change: opacity, transform;
+}
+
+.categories-grid .category-card.reveal {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ═══ TESTIMONIAL CARDS — Fade up ═══ */
+.testimonials-grid .testimonial-card {
+  opacity: 0;
+  transform: translateY(20px) scale(0.97);
+  transition:
+    opacity 0.5s cubic-bezier(.2, .8, .2, 1),
+    transform 0.5s cubic-bezier(.2, .8, .2, 1);
+  will-change: opacity, transform;
+}
+
+.testimonials-grid .testimonial-card.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ═══ COUNTER ITEMS — Subtle rise ═══ */
+.counters-grid .counter-item {
+  opacity: 0;
+  transform: translateY(14px) scale(0.95);
+  transition:
+    opacity 0.5s cubic-bezier(.2, .7, .2, 1),
+    transform 0.5s cubic-bezier(.2, .7, .2, 1);
+  will-change: opacity, transform;
+}
+
+.counters-grid .counter-item.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ═══ SECTION HEADERS — Fade up (must be after their definitions) ═══ */
+.section-title,
+.section-sub,
+.section-label {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.5s cubic-bezier(.2, .7, .2, 1),
+    transform 0.5s cubic-bezier(.2, .7, .2, 1);
+  will-change: opacity, transform;
+}
+
+.section-title.reveal,
+.section-sub.reveal,
+.section-label.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ═══ DROP-IN (generic) ═══ */
+.drop-item {
+  opacity: 0;
+  transform: translateY(8px) scale(0.97);
+  transition:
+    opacity 0.4s cubic-bezier(.2, .7, .2, 1),
+    transform 0.4s cubic-bezier(.2, .7, .2, 1);
+  will-change: opacity, transform;
+}
+
+.drop-item.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ═══ SKELETON LOADER (for cards before data loads) ═══ */
+.product-card.skeleton-load {
+  background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s infinite linear;
+  pointer-events: none;
+  border-color: var(--gray-200);
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ═══ SETTLE PULSE — subtle "just arrived" micro-animation ═══ */
+/* After reveal, each revealed card gets a single heartbeat to feel "placed" */
+.product-card.reveal,
+.service-card.reveal,
+.category-card.reveal,
+.testimonial-card.reveal,
+.counter-item.reveal {
+  animation: settle-pulse 0.6s cubic-bezier(.2, .8, .2, 1) forwards;
+}
+
+@keyframes settle-pulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.015); }
+  70%  { transform: scale(0.995); }
+  100% { transform: scale(1); }
+}
+
+/* Disable settle-pulse on hover so card hover state is clean */
+.product-card:hover.reveal,
+.service-card:hover.reveal,
+.category-card:hover.reveal,
+.testimonial-card:hover.reveal,
+.counter-item:hover.reveal {
+  animation: none;
+}
 .product-card {
   background:var(--white);
   border-radius:var(--radius);
@@ -655,40 +834,204 @@ button { cursor:pointer; font-family:inherit }
 }
 .floating-wa:hover .wa-tooltip { opacity:1; transform:translateY(-50%) translateX(-4px) }
 
-/* ═══ ANIMATIONS ═══ */
-.animate-on-scroll {
-  opacity:0;
-  transform:translateY(24px);
-  transition:opacity .6s ease, transform .6s ease;
+/* ═══ DROP-IN ENTRANCE (appears as if just dropped/placed) ═══ */
+/* Each element gets a staggered delay via JS, then CSS plays the keyframe */
+@keyframes drop-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.94);
+    filter: blur(1px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(4px) scale(1.01);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
 }
-.animate-on-scroll.reveal {
-  opacity:1;
-  transform:none;
-}
-.slide-left { transform:translateX(64px) }
-.slide-left.reveal { transform:none }
-.slide-right { transform:translateX(-64px) }
-.slide-right.reveal { transform:none }
-.scale-in { transform:scale(.92) }
-.scale-in.reveal { transform:none }
-.fade-up { transform:translateY(20px) }
-.fade-up.reveal { transform:none }
 
-/* Alternating side entrances for product cards: odd from right, even from left */
-#products-grid > .product-card:nth-child(odd) { transform:translateX(64px) }
-#products-grid > .product-card:nth-child(even) { transform:translateX(-64px) }
-#products-grid > .product-card.reveal:nth-child(odd),
-#products-grid > .product-card.reveal:nth-child(even) { transform:none }
-
-/* Page load stagger */
-.page-load-anim {
-  opacity:0;
-  transform:translateY(18px);
-  transition:opacity .5s ease, transform .5s ease;
+/* Product cards: subtle stagger, alternating sides + drop */
+.products-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
 }
-.page-load-anim.anim-in {
-  opacity:1;
-  transform:none;
+@media (min-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.products-grid .product-card {
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  filter: blur(2px);
+  transition:
+    opacity 0.55s cubic-bezier(.2,.7,.2,1),
+    transform 0.55s cubic-bezier(.2,.7,.2,1),
+    filter 0.4s ease;
+  will-change: opacity, transform, filter;
+}
+
+.products-grid .product-card:nth-child(odd) {
+  transform: translateY(20px) scale(0.96) translateX(-6px);
+}
+
+.products-grid .product-card:nth-child(even) {
+  transform: translateY(20px) scale(0.96) translateX(6px);
+}
+
+.products-grid .product-card.reveal {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
+/* Service cards: drop with slight rotation */
+.services-grid .service-card {
+  opacity: 0;
+  transform: translateY(16px) scale(0.97) rotate(-0.5deg);
+  transition:
+    opacity 0.55s cubic-bezier(.2,.7,.2,1),
+    transform 0.55s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
+}
+
+.services-grid .service-card:nth-child(odd) {
+  transform: translateY(16px) scale(0.97) rotate(-1deg);
+}
+
+.services-grid .service-card:nth-child(even) {
+  transform: translateY(16px) scale(0.97) rotate(0.8deg);
+}
+
+.services-grid .service-card.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* Category cards: scale-in from small with pulse */
+.categories-grid .category-card {
+  opacity: 0;
+  transform: scale(0.88);
+  transition:
+    opacity 0.5s cubic-bezier(.2,.7,.2,1),
+    transform 0.5s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
+}
+
+.categories-grid .category-card.reveal {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Testimonials: fade up with slight bounce */
+.testimonials-grid .testimonial-card {
+  opacity: 0;
+  transform: translateY(20px) scale(0.97);
+  transition:
+    opacity 0.5s cubic-bezier(.2,.8,.2,1),
+    transform 0.5s cubic-bezier(.2,.8,.2,1);
+  will-change: opacity, transform;
+}
+
+.testimonials-grid .testimonial-card.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* Counter items: subtle scale + fade */
+.counters-grid .counter-item {
+  opacity: 0;
+  transform: translateY(14px) scale(0.95);
+  transition:
+    opacity 0.5s cubic-bezier(.2,.7,.2,1),
+    transform 0.5s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
+}
+
+.counters-grid .counter-item.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* Section headers: fade up */
+.section-title,
+.section-sub,
+.section-label {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.5s cubic-bezier(.2,.7,.2,1),
+    transform 0.5s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
+}
+
+.section-title.reveal,
+.section-sub.reveal,
+.section-label.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── FEATHER-LIGHT "DROP" for any element that should feel hand-placed ── */
+.drop-item {
+  opacity: 0;
+  transform: translateY(8px) scale(0.97);
+  transition:
+    opacity 0.4s cubic-bezier(.2,.7,.2,1),
+    transform 0.4s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
+}
+
+.drop-item.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* Skeleton loader for product cards before reveal */
+.product-card.skeleton-load {
+  background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Heartbeat suggestion for "just appeared" — subtle scale pulse after reveal */
+.product-card:has(.reveal),
+.service-card:has(.reveal),
+.category-card:has(.reveal),
+.testimonial-card:has(.reveal),
+.counter-item:has(.reveal) {
+  animation: settle-pulse 0.6s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+@keyframes settle-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.015); }
+  100% { transform: scale(1); }
+}
+
+/* Ensure hover effects don't interfere with settle animation */
+.product-card:hover:has(.reveal),
+.service-card:hover:has(.reveal),
+.category-card:hover:has(.reveal),
+.testimonial-card:hover:has(.reveal) {
+  animation: none;
 }
 
 /* ═══ COUNTER ANIMATION ═══ */

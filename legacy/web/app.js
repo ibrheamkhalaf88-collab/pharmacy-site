@@ -6,31 +6,67 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ═══════════════════════════════════════════════
-  // 1. IntersectionObserver — Scroll animations
+  // 1. IntersectionObserver — Scroll animations (تحسين: stagger مدروس لكل عنصر)
   // ═══════════════════════════════════════════════
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  //Stagger delays by category of element for "just-appeared" feel
+  const staggerMap = {
+    '.product-card':     0.08,   // 80ms بين كل منتج — تشوّيش خفيف يشبه " emergence"
+    '.service-card':     0.07,
+    '.category-card':    0.06,
+    '.testimonial-card': 0.09,
+    '.counter-item':     0.05,
+    '.about-features li':0.06,
+    '.slide-left':       0.10,
+    '.slide-right':      0.10,
+    '.scale-in':         0.08,
+    '.fade-up':          0.06,
+    '.page-load-anim':   0.08,   // handled separately in page-load stagger
+    '.stagger-children > *': 0.05,
+  };
+
+  function getStaggerDelay(el) {
+    for (const selector in staggerMap) {
+      if (el.matches(selector) || el.closest(selector)) {
+        const base = staggerMap[selector];
+        // index-based increment for siblings
+        const parent = el.closest(':scope > *') || el.parentElement;
+        if (parent) {
+          const siblings = [...parent.children].filter(c => c.matches && c.matches(selector));
+          const idx = siblings.indexOf(el);
+          if (idx >= 0) return base + idx * base * 0.6; // exponential-ish spread
+        }
+        return base;
+      }
+    }
+    return 0.06; // default
+  }
 
   if (!prefersReducedMotion) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const el = entry.target;
-          const delay = parseInt(el.dataset.delay || '0', 10);
-          if (delay > 0) {
-            el.style.transitionDelay = (delay * 0.08) + 's';
-          }
+          // Skip if already revealed
+          if (el.classList.contains('reveal')) return;
+          // Apply stagger delay
+          const delay = getStaggerDelay(el);
+          el.style.transitionDelay = delay + 's';
+          // Add the reveal class (CSS handles the actual animation)
           el.classList.add('reveal');
+          // Unobserve after reveal (performance)
           observer.unobserve(el);
         }
       });
     }, {
-      threshold: 0.12,
-      rootMargin: '-40px 0px'
+      threshold: 0.10,
+      rootMargin: '-30px 0px -20px 0px'   // trigger slightly before center
     });
 
-    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+    document.querySelectorAll('.animate-on-scroll, .slide-left, .slide-right, .scale-in, .fade-up').forEach(el => observer.observe(el));
   } else {
-    document.querySelectorAll('.animate-on-scroll').forEach(el => el.classList.add('reveal'));
+    document.querySelectorAll('.animate-on-scroll, .slide-left, .slide-right, .scale-in, .fade-up').forEach(el => el.classList.add('reveal'));
   }
 
   // ═══════════════════════════════════════════════
@@ -158,16 +194,30 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadProducts() {
     if (!productsGrid) return;
     try {
+      // Show skeleton placeholders while loading
+      productsGrid.innerHTML = Array.from({ length: 6 }, () => `
+        <div class="product-card skeleton-load">
+          <div style="width:100%;height:160px;background:var(--gray-200);border-radius:0"></div>
+          <div class="product-body" style="padding:16px">
+            <div class="skeleton" style="width:70%;height:18px"></div>
+            <div class="skeleton" style="width:100%;height:14px;margin-top:8px"></div>
+            <div class="skeleton" style="width:50%;height:22px;margin-top:12px"></div>
+          </div>
+        </div>
+      `).join('');
+
       const res = await fetch('/api/products');
       const data = await res.json();
       const products = data.products || [];
 
-      productsGrid.innerHTML = products.map(p => {
+      productsGrid.innerHTML = products.map((p, idx) => {
         const cat = p.category || 'أخرى';
         const imgSrc = p.image || categoryImages[cat] || defaultImage;
         const imgAlt = cat === 'أدوات' ? 'أدوات طبية' : cat;
+        // Stagger delay: each card gets idx * 0.08s (80ms apart)
+        const stagger = (idx % 12) * 0.08;
         return `
-        <div class="product-card animate-on-scroll ${cat.replace(/\s/g,'')}" data-category="${cat}">
+        <div class="product-card animate-on-scroll ${cat.replace(/\s/g,'')}" data-category="${cat}" data-stagger="${stagger.toFixed(2)}" style="opacity:0; transform:translateY(20px) scale(0.96) ${idx % 2 ? 'translateX(-6px)' : 'translateX(6px)'}; transition-delay:${stagger}s">
           <img src="${imgSrc}" alt="${imgAlt}" class="product-img" loading="lazy" onerror="this.src='${defaultImage}'">
           <div class="product-body">
             <h3 class="product-name">${p.name}</h3>
@@ -180,25 +230,27 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>`;
       }).join('');
 
-      // Observe freshly rendered cards so scroll animations apply to them too
-      const freshCards = productsGrid.querySelectorAll('.product-card.animate-on-scroll:not(.reveal)');
-      if (freshCards.length) {
-        if (!prefersReducedMotion) {
-          const cardObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('reveal');
-                cardObserver.unobserve(entry.target);
-              }
-            });
-          }, { threshold: 0.12, rootMargin: '-40px 0px' });
-          freshCards.forEach(el => cardObserver.observe(el));
-        } else {
-          freshCards.forEach(el => el.classList.add('reveal'));
-        }
+      // Reveal all cards with staggered timing — each appears little by little
+      const allCards = productsGrid.querySelectorAll('.product-card:not(.skeleton-load)');
+      if (allCards.length && !prefersReducedMotion) {
+        // Wait briefly so the browser paints the initial state, then stagger-reveal
+        setTimeout(() => {
+          allCards.forEach((card, i) => {
+            setTimeout(() => {
+              card.style.opacity = '';
+              card.style.transform = '';
+              card.classList.add('reveal');
+            }, i * 80); // 80ms between each card = "just appeared" feel
+          });
+        }, 200);
+      } else if (allCards.length) {
+        allCards.forEach(c => c.classList.add('reveal'));
       }
     } catch (err) {
       console.error('Error loading products:', err);
+      if (productsGrid) {
+        productsGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--gray-400)">عذراً، لم يتم تحميل المنتجات. حاول تحديث الصفحة.</div>';
+      }
     }
   }
 

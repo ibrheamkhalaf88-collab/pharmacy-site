@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>إدارة صيدلية السلاق</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+
+  <!-- دخول -->
+  <div class="auth-screen" id="authScreen">
+    <div class="auth-card">
+      <h1>🔒 لوحة إدارة صيدلية السلاق</h1>
+      <p>هذه الصفحة للإدارة فقط</p>
+      <form id="loginForm">
+        <div class="field">
+          <label for="adminPassword">كلمة السر</label>
+          <input id="adminPassword" type="password" required autocomplete="current-password" />
+        </div>
+        <button class="checkout-btn" type="submit" id="loginBtn">دخول</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- لوحة التحكم -->
+  <div class="admin-shell" id="adminShell">
+    <nav class="admin-nav">
+      <button class="an-btn active" data-tab="overview" type="button">📊 نظرة عامة</button>
+      <button class="an-btn" data-tab="products" type="button">💊 المنتجات</button>
+      <button class="an-btn" data-tab="settings" type="button">⚙️ الإعدادات</button>
+      <span class="an-brand">صيدلية السلاق</span>
+      <button class="an-btn" id="logoutBtn" type="button">خروج</button>
+    </nav>
+
+    <div class="admin-main">
+      <!-- نظرة عامة -->
+      <section id="tab-overview">
+        <div class="stat-cards" id="statCards"></div>
+        <div class="panel">
+          <div class="row" style="justify-content:space-between">
+            <h2>الطلبات</h2>
+            <select id="orderFilter">
+              <option value="all">كل الحالات</option>
+              <option value="pending">بانتظار التأكيد</option>
+              <option value="confirmed">مؤكدة</option>
+              <option value="preparing">قيد التحضير</option>
+              <option value="dispatched">في الطريق</option>
+              <option value="delivered">تم التسليم</option>
+              <option value="cancelled">ملغاة</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table id="ordersTable">
+              <thead>
+                <tr>
+                  <th>#</th><th>العميل</th><th>الهاتف</th><th>المنتجات</th><th>الإجمالي</th>
+                  <th>الفرع/التوصيل</th><th>التاريخ</th><th>الحالة</th><th>إجراءات</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- المنتجات -->
+      <section id="tab-products" style="display:none">
+        <div class="panel">
+          <h2>إضافة / تعديل منتج</h2>
+          <form id="productForm">
+            <input type="hidden" id="pId" />
+            <div class="form-grid">
+              <div class="field">
+                <label>اسم المنتج *</label>
+                <input id="pName" type="text" required maxlength="120" />
+              </div>
+              <div class="field">
+                <label>الفئة</label>
+                <input id="pCategory" type="text" list="catList" maxlength="40" placeholder="دواء / فيتامين / بشرة / أدوات" />
+                <datalist id="catList">
+                  <option value="دواء"></option>
+                  <option value="فيتامين"></option>
+                  <option value="بشرة"></option>
+                  <option value="أدوات"></option>
+                </datalist>
+              </div>
+              <div class="field">
+                <label>السعر (شيكل) *</label>
+                <input id="pPrice" type="number" step="0.01" min="0.01" required />
+              </div>
+              <div class="field">
+                <label>أيقونة</label>
+                <select id="pIcon">
+                  <option value="medicine">دواء</option>
+                  <option value="vitamin">فيتامين</option>
+                  <option value="skin">بشرة</option>
+                  <option value="tools">أدوات</option>
+                  <option value="capsule">كبسولة</option>
+                  <option value="medical">طبي</option>
+                </select>
+              </div>
+              <div class="field" style="grid-column:1/-1">
+                <label>الوصف</label>
+                <textarea id="pDesc" rows="2" maxlength="500"></textarea>
+              </div>
+              <div class="field" style="grid-column:1/-1">
+                <label>رابط صورة (اختياري — يظهر بدل الأيقونة)</label>
+                <input id="pImage" type="text" placeholder="https://…" />
+              </div>
+            </div>
+            <div class="row mt">
+              <button class="btn btn-primary" type="submit" id="pSaveBtn">حفظ المنتج</button>
+              <button class="btn btn-ghost" type="button" id="pResetBtn">إلغاء / جديد</button>
+            </div>
+          </form>
+        </div>
+        <div class="panel">
+          <h2>المنتجات المتاحة</h2>
+          <div class="table-wrap">
+            <table id="productsTable">
+              <thead><tr><th>#</th><th>الاسم</th><th>الفئة</th><th>السعر</th><th>إجراءات</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- الإعدادات -->
+      <section id="tab-settings" style="display:none">
+        <div class="panel">
+          <h2>إعدادات الصيدلية</h2>
+          <form id="settingsForm">
+            <div class="form-grid">
+              <div class="field">
+                <label>اسم الصيدلية</label>
+                <input id="sName" type="text" />
+              </div>
+              <div class="field">
+                <label>العنوان</label>
+                <input id="sAddress" type="text" />
+              </div>
+              <div class="field">
+                <label>رقم الهاتف</label>
+                <input id="sPhone" type="text" dir="ltr" />
+              </div>
+              <div class="field">
+                <label>رقم واتساب الاستقبال (مع رمز الدولة)</label>
+                <input id="sWaNumber" type="text" dir="ltr" placeholder="9705952224444" />
+              </div>
+              <div class="field">
+                <label>ساعات العمل</label>
+                <input id="sHours" type="text" />
+              </div>
+            </div>
+            <hr />
+            <h3>WhatsApp Cloud API (اختياري — إرسال تلقائي لرسائل الطلبات)</h3>
+            <div class="form-grid mt">
+              <div class="field">
+                <label>API Token</label>
+                <input id="sWaToken" type="password" dir="ltr" autocomplete="off" />
+              </div>
+              <div class="field">
+                <label>Phone ID</label>
+                <input id="sWaPhoneId" type="text" dir="ltr" />
+              </div>
+              <div class="field">
+                <label>Base URL</label>
+                <input id="sWaBase" type="text" dir="ltr" />
+              </div>
+            </div>
+            <button class="btn btn-primary mt" type="submit">حفظ الإعدادات</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="toast-wrap" id="toasts" aria-live="polite"></div>
+
+  <script src="/assets/api.js"></script>
+  <script src="/assets/admin.js"></script>
+</body>
+</html>

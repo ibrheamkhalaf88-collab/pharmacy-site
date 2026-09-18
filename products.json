@@ -5,6 +5,7 @@
     "category": "دواء",
     "desc": "مسكن حراري ومضاد للالتهابات — مناسب للصداع وآلام الجسم والحمى",
     "price": 12.5,
+    "image": "img/medicine.svg",
     "icon": "medicine"
   },
   {
@@ -15,6 +16,7 @@
     "price": 32.0,
     "offer_price": 22.0,
     "offer_end": "2025-09-20T23:59:00",
+    "image": "img/vitamins.svg",
     "icon": "vitamin"
   },
   {
@@ -25,6 +27,7 @@
     "price": 24.5,
     "offer_price": 16.0,
     "offer_end": "2025-09-25T23:59:00",
+    "image": "img/vitamins.svg",
     "icon": "vitamin"
   },
   {
@@ -35,6 +38,7 @@
     "price": 45.0,
     "offer_price": 28.0,
     "offer_end": "2025-09-18T23:59:00",
+    "image": "img/skin.svg",
     "icon": "skin"
   },
   {
@@ -45,6 +49,7 @@
     "price": 14.5,
     "offer_price": 9.0,
     "offer_end": "2025-09-15T23:59:00",
+    "image": "img/medicine.svg",
     "icon": "medicine"
   },
   {
@@ -53,6 +58,7 @@
     "category": "أدوات",
     "desc": "فحصين سريعين في الصيدلية — ضغط الدم وجلوكوز الدم",
     "price": 89.0,
+    "image": "img/tools.svg",
     "icon": "tools"
   },
   {
@@ -61,6 +67,7 @@
     "category": "أدوات",
     "desc": "للمستخدم المنزلي — شاشة رقمية ووضع اليد الأيمن",
     "price": 125.0,
+    "image": "img/tools.svg",
     "icon": "tools"
   },
   {
@@ -69,6 +76,7 @@
     "category": "بشرة",
     "desc": "كريم واقي جسم عالي الحماية — مناسب للماء والرياضة",
     "price": 75.0,
+    "image": "img/skin.svg",
     "icon": "skin"
   },
   {
@@ -77,6 +85,7 @@
     "category": "أدوات",
     "desc": "للمرضى الذين يحتاجون متابعة دورية — النتائج في دقيقة",
     "price": 45.0,
+    "image": "img/tools.svg",
     "icon": "tools"
   },
   {
@@ -87,6 +96,7 @@
     "price": 38.0,
     "offer_price": 24.0,
     "offer_end": "2025-09-22T23:59:00",
+    "image": "img/vitamins.svg",
     "icon": "vitamin"
   },
   {
@@ -97,6 +107,16 @@
     "price": 18.0,
     "offer_price": 11.0,
     "offer_end": "2025-09-18T23:59:00",
+    "image": "img/tools.svg",
+    "icon": "tools"
+  },
+  {
+    "id": 12,
+    "name": "مجموعة أدوات العناية الشخصية",
+    "category": "أدوات",
+    "desc": " Essentials للعناية اليومية: فرشاة، خيط تنظير، مناديل معقمة",
+    "price": 28.0,
+    "image": "img/tools.svg",
     "icon": "tools"
   },
   {
@@ -107,6 +127,7 @@
     "price": 35.0,
     "offer_price": 22.0,
     "offer_end": "2025-09-20T23:59:00",
+    "image": "img/skin.svg",
     "icon": "skin"
   },
   {
@@ -115,6 +136,7 @@
     "category": "أدوات",
     "desc": "٣ فحوصات معتمدة في الصيدلية — نتيجة فورية",
     "price": 95.0,
+    "image": "img/tools.svg",
     "icon": "tools"
   },
   {
@@ -123,6 +145,7 @@
     "category": "فيتامين",
     "desc": "منتج تجريبي للفحص",
     "price": 25.5,
+    "image": "img/vitamins.svg",
     "icon": "vitamin"
   },
   {
@@ -131,6 +154,7 @@
     "category": "فيتامين",
     "desc": "فيتامين D3 عالي الجرعة — يدعم المناعة والعظام",
     "price": 45.0,
+    "image": "img/vitamins.svg",
     "icon": "capsule"
   }
 ]

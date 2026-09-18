@@ -1,8 +1,3 @@
-# Old backend/frontend subfolders (consolidated)
-backend/
-frontend/
-docs/
-
 # Python bytecode
 __pycache__/
 *.py[cod]
@@ -50,7 +45,7 @@ Thumbs.db
 desktop.ini
 ~$*
 
-# Environment files (secret)
+# Environment files (secret) — always untracked
 .env
 !.env.example
 
@@ -58,11 +53,13 @@ desktop.ini
 test_icons.html
 verify_css.py
 
-# Supabase local
-supabase/
-!supabase_schema.sql
+# Logs & runtime
+*.log
+run.bat
 
-# MCP
-.mcp.json
-opencode.json
-opencode.jsonc
+# Supabase local tooling (keep migrations tracked)
+supabase/.temp/
+supabase/.branches/
+supabase/.status
+supabase/.project-ref
+supabase/config.toml

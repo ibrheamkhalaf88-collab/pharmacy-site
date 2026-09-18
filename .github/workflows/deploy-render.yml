@@ -1,0 +1,16 @@
+name: Deploy to Render
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: vars.RENDER_DEPLOY_HOOK != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy hook
+        run: |
+          curl -fsS -X POST "${{ vars.RENDER_DEPLOY_HOOK }}" >/dev/null
+      - name: Wait briefly (webhook is async)
+        run: sleep 10
