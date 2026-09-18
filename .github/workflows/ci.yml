@@ -28,9 +28,9 @@ jobs:
         run: |
           python - <<'EOF'
           from backend.app.main import app
-          routes = [getattr(r, "path", "") for r in app.routes]
-          assert "/api/products" in routes and "/api/orders" in routes
-          print("import OK", len(routes), "routes")
+          paths = set(app.openapi()["paths"])
+          assert "/api/products" in paths and "/api/orders" in paths and "/api/auth/login" in paths
+          print("import OK", len(paths), "api paths")
           EOF
 
       - name: Check JS syntax (frontend)
