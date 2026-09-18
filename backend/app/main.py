@@ -44,6 +44,7 @@ def serve_admin():
 
 
 app.mount("/assets", StaticFiles(directory=STATIC_DIR / "assets"), name="assets")
+app.mount("/img", StaticFiles(directory=STATIC_DIR / "assets" / "img"), name="img")
 
 
 if __name__ == "__main__":

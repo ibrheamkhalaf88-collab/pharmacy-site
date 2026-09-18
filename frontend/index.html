@@ -1,99 +1,819 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>صيدلية السلاق — اطلب الآن عبر واتساب</title>
-  <meta name="description" content="صيدلية السلاق — أدوية، فيتامينات، بشرية وأدوات طبية. اطلب عبر واتساب واستلم طلبك من أقرب فرع." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/style.css" />
-</head>
-<body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="logo">⚕</div>
-        <span>صيدلية السلاق</span>
-      </div>
-      <div class="topbar-actions">
-        <a class="btn-wa" href="#" id="waLink" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 1.54 5.36L2 22l4.75-1.5A10 10 0 0 0 12 22 10 10 0 0 0 22 12 10 10 0 0 0 12 2zm5.6 14.2c-.24.66-1.4 1.28-1.94 1.3-.5.03-.98.17-3.6-.77-3.22-1.15-5.26-4.13-5.42-4.32-.16-.19-1.3-1.73-1.3-3.3 0-1.57.82-2.34 1.11-2.66.3-.32.64-.4.85-.4.2 0 .4 0 .59.01.18.01.44-.07.69.53.24.6.83 2.04.9 2.19.07.15.12.32.02.52-.1.2-.15.32-.29.5-.14.18-.3.4-.43.53-.14.15-.29.31-.12.6.16.3.73 1.2 1.57 1.95 1.08.96 1.98 1.26 2.26 1.4.28.14.45.12.61-.07.17-.19.7-.82.88-1.1.19-.28.37-.24.62-.14.25.1 1.6.75 1.87.89.28.14.46.2.53.32.07.11.07.66-.17 1.32z"/></svg>
-          <span class="wtxt">واتساب</span>
-        </a>
-        <button class="btn-cart" id="openCart" type="button">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 18a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm10 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM4 2h2.2l.7 4H20a1 1 0 0 1 .98 1.2l-1.5 7.5a2 2 0 0 1-1.98 1.6H8.6a2 2 0 0 1-1.98-1.6L4.2 3.6A1 1 0 0 0 3.2 3H2V2h2zm3.2 6 1.2 6.4h8.2l1.6-6.4H7.2z"/></svg>
-          <span class="ctxt">السلة</span>
-          <span class="cart-badge" id="cartBadge">0</span>
-        </button>
+<!DOCTYPE html><html dir="rtl" lang="ar" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link rel="stylesheet" href="/assets/design.css"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="anonymous" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@100..900&amp;family=Tajawal:wght@100..900&amp;display=swap" rel="stylesheet"><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; } @keyframes pulse-subtle { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); } 50% { transform: scale(1.02); box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); } } @keyframes breathe { 0%, 100% { transform: scale(1); box-shadow: 0 10px 25px -5px rgba(0, 105, 72, 0.4), 0 0 0 0 rgba(104, 219, 169, 0.7); } 50% { transform: scale(1.06); box-shadow: 0 15px 30px -5px rgba(0, 105, 72, 0.5), 0 0 0 12px rgba(104, 219, 169, 0); } } .pulse-gold { animation: pulse-subtle 2.5s infinite ease-in-out; } .pulse-whatsapp { animation: breathe 3s infinite ease-in-out; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-background": "#191c1e", "surface-tint": "#006c4a", "inverse-on-surface": "#eff1f3", "outline": "#6d7a72", "surface-dim": "#d8dadc", "on-primary-container": "#f5fff7", "on-secondary-fixed": "#002117", "inverse-primary": "#68dba9", "tertiary-fixed": "#ffddb8", "on-surface-variant": "#3d4a42", "on-primary-fixed": "#002114", "on-error-container": "#93000a", "on-surface": "#191c1e", "on-tertiary-fixed-variant": "#653e00", "on-tertiary": "#ffffff", "on-primary": "#ffffff", "on-tertiary-fixed": "#2a1700", "on-secondary": "#ffffff", "surface-container-lowest": "#ffffff", "secondary-container": "#adedd3", "tertiary-fixed-dim": "#ffb95f", "tertiary": "#825100", "surface-container-highest": "#e0e3e5", "inverse-surface": "#2d3133", "primary": "#006948", "secondary": "#2b6954", "surface": "#f7f9fb", "error": "#ba1a1a", "secondary-fixed-dim": "#95d3ba", "tertiary-container": "#a36700", "surface-container-low": "#f2f4f6", "surface-variant": "#e0e3e5", "surface-bright": "#f7f9fb", "on-secondary-fixed-variant": "#0b513d", "secondary-fixed": "#b0f0d6", "on-secondary-container": "#306d58" }, borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" }, spacing: { "gutter-sm": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem", margin: "2rem", "margin-sm": "1rem", "space-md": "1rem", "space-xs": "0.25rem", gutter: "1.5rem", "space-xl": "2.5rem" }, fontFamily: { "body-lg": ["Cairo"], "body-md": ["Cairo"], "body-sm": ["Cairo"], "label-lg": ["Tajawal"], "headline-xl-mobile": ["Cairo"], "label-md": ["Tajawal"], "headline-xl": ["Cairo"], "label-sm": ["Tajawal"], "headline-md": ["Cairo"], "headline-sm": ["Cairo"], "headline-lg": ["Cairo"], "headline-lg-mobile": ["Cairo"] }, fontSize: { "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }], "body-md": ["16px", { lineHeight: "26px", fontWeight: "400" }], "body-sm": ["14px", { lineHeight: "22px", fontWeight: "400" }], "label-lg": ["16px", { lineHeight: "24px", fontWeight: "500" }], "headline-xl-mobile": ["28px", { lineHeight: "38px", fontWeight: "700" }], "label-md": ["14px", { lineHeight: "20px", fontWeight: "500" }], "headline-xl": ["40px", { lineHeight: "52px", fontWeight: "700" }], "label-sm": ["12px", { lineHeight: "16px", fontWeight: "700" }], "headline-md": ["24px", { lineHeight: "34px", fontWeight: "600" }], "headline-sm": ["20px", { lineHeight: "30px", fontWeight: "600" }], "headline-lg": ["32px", { lineHeight: "44px", fontWeight: "600" }], "headline-lg-mobile": ["24px", { lineHeight: "34px", fontWeight: "600" }] } } } };</script></head><body class="bg-background font-body-md text-on-background antialiased"><header class="fixed top-0 w-full z-50 bg-surface/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(6,78,59,0.06)]"><div class="bg-primary text-on-primary font-label-sm text-label-sm py-1.5 px-margin-sm lg:px-margin"><div class="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-space-xs"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-sm leading-none">schedule</span><span class="">أوقات العمل: يومياً من 8:00 ص حتى 12:00 منتصف الليل</span></div><div class="hidden md:flex items-center gap-space-xs"><span class="material-symbols-outlined text-sm leading-none">location_on</span><span class="">الرياض، طريق الملك فهد</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs font-headline-sm text-label-sm"><span class="material-symbols-outlined text-sm leading-none text-primary-fixed">e911_emergency</span><span class="">طوارئ الصيدلية: <span class="font-label-lg" dir="ltr">920001234</span></span></div><div class="hidden sm:flex items-center gap-space-xs bg-primary-container px-space-sm py-0.5 rounded-full text-on-primary-container font-label-sm text-label-sm"><span class="material-symbols-outlined text-xs leading-none">verified</span><span class="">مرخصة رسمياً من وزارة الصحة</span></div></div></div></div><div class="max-w-7xl mx-auto px-margin-sm lg:px-margin h-20 flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-md"><img alt="شعار صيدلية سلاق SALLAQ PHARMACY" class="h-12 w-auto object-contain rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ0iZyAnvCfMoIAomOz7xYcxbBR5VLF_dzMpLfW3UzVEx6mHHaVInDYWXbn8zAjUeG5juNAXD4mo8pJV12Irkpyg9BO3fvyGRkXZxiQfSiQLS3fMW6RwP3o6s1RhwU9ll_rqEKtMV_XFibBusgpPuYKI_5oeeFHS-a5pCE8oh2lU5F2oHilbsEppZTy9y6favZ3uGzxsFDlOEPz7AGAlizgD0wistqpILvE8m02HasG2-rCpauD5N9vixGr7z__LB3r2k"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">صيدلية سلاق</span><span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase font-semibold">SALLAQ PHARMACY</span></div></div><div class="hidden xl:flex items-center flex-1 max-w-sm mx-space-md"><div class="relative w-full"><input class="w-full pl-10 pr-space-md py-2 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest transition-all" placeholder="ابحث عن دواء، مكمل، أو منتج عناية..." type="search"><button aria-label="بحث" class="absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary flex items-center" type="button"><span class="material-symbols-outlined text-lg">search</span></button></div></div><nav class="hidden lg:flex items-center gap-space-xs" data-active-classes="bg-secondary-container text-on-secondary-container font-bold rounded-lg"><a aria-current="page" class="px-space-sm py-2 transition-colors bg-secondary-container text-on-secondary-container font-bold rounded-lg" data-path="home" href="#">الرئيسية</a><a class="px-space-sm py-2 rounded-lg font-label-md text-label-md text-tertiary hover:bg-tertiary-fixed font-bold flex items-center gap-1 transition-colors" data-path="flash-deals" href="#flash-deals-section"><span class="material-symbols-outlined text-sm leading-none text-tertiary">local_fire_department</span><span class="">عروض الفلاش</span></a><a class="px-space-sm py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="about-us" href="#">من نحن</a><a class="px-space-sm py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="services" href="#">خدماتنا</a><a class="px-space-sm py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="featured-products" href="#">المنتجات المميزة</a><a class="px-space-sm py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="branches-and-hours" href="#">ساعات العمل والفروع</a><a class="px-space-sm py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="contact-us" href="#">اتصل بنا</a></nav><div class="flex items-center gap-space-sm"><a class="pulse-gold bg-tertiary-container hover:bg-tertiary text-on-tertiary font-label-md text-label-md px-space-md py-2.5 rounded-lg flex items-center gap-space-xs transition-colors shadow-[0_2px_4px_rgba(130,81,0,0.15)]" href="https://wa.me/966500000000" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-lg leading-none">chat</span><span class="whitespace-nowrap">تواصل واتساب فوراً</span></a></div></div></header><main class="w-full pt-28 bg-surface"><div class="flex flex-col w-full">
+<!-- 1. HERO SECTION -->
+<section class="relative w-full overflow-hidden bg-surface py-space-xl lg:py-24">
+<!-- Ambient emerald aura -->
+<div class="absolute -top-32 -right-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-1/2 -left-32 w-80 h-80 bg-tertiary-fixed-dim/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="max-w-7xl mx-auto px-margin-sm lg:px-margin relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<!-- Hero Text Content -->
+<div class="lg:col-span-7 flex flex-col gap-space-md text-right page-load-anim">
+<!-- Trust Badges Row -->
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="material-symbols-outlined text-sm leading-none">verified_user</span>
+              مرخص من وزارة الصحة
+            </span>
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-sm text-tertiary leading-none">electric_bolt</span>
+              توصيل سريع خلال 30 دقيقة
+            </span>
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-sm text-primary leading-none">support_agent</span>
+              فريق صيدلي مرخص 24/7
+            </span>
+</div>
+<!-- Main Hero Headline -->
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight leading-snug">
+            صحتك أمانة بأيدينا..<br>
+<span class="text-primary relative inline-block">
+              رعاية دوائية متكاملة
+              <svg class="absolute -bottom-2 left-0 w-full h-3 text-secondary-container" fill="none" preserveAspectRatio="none" viewBox="0 0 200 12">
+<path d="M2 9C50 3 150 3 198 9" stroke="currentColor" stroke-linecap="round" stroke-width="4"></path>
+</svg>
+</span>
+            وموثوقة
+          </h1>
+<!-- Hero Subtext -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+            نقدم لك ولعائلتك أرقى استشارات الرعاية الصحية، توفير الأدوية المعتمدة، وتوصيل فوري على مدار 24 ساعة بأعلى معايير الجودة الطبية والرقابة الصيدلانية السريرية.
+          </p>
+<!-- Interactive Action Buttons -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-sm pt-space-sm">
+<a class="pulse-gold bg-tertiary-container hover:bg-tertiary text-on-tertiary font-label-lg text-label-lg px-space-xl py-3.5 rounded-lg flex items-center justify-center gap-space-xs shadow-md transition-all" href="#consultation-modal" onclick="document.getElementById('contact-section').scrollIntoView({behavior: 'smooth'}); return false;">
+<span class="material-symbols-outlined text-xl">medical_services</span>
+<span class="">استشارة صيدلانية فورية</span>
+</a>
+<a class="bg-surface-container-lowest hover:bg-secondary-container text-primary font-label-lg text-label-lg px-space-lg py-3.5 rounded-lg flex items-center justify-center gap-space-xs shadow-sm transition-all" href="https://wa.me/966500000000" rel="noopener noreferrer" target="_blank">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+</span>
+<span class="material-symbols-outlined text-xl">chat</span>
+<span class="">اطلب دوائك عبر واتساب</span>
+</a>
+</div>
+<!-- Micro Pharmacist Note -->
+<div class="flex items-center gap-space-sm pt-space-xs">
+<div class="flex -space-x-2 space-x-reverse">
+<span class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-sm text-xs">د.ع</span>
+<span class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-label-sm text-xs">د.س</span>
+<span class="w-8 h-8 rounded-full bg-tertiary-container text-on-tertiary flex items-center justify-center font-label-sm text-xs">د.م</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              صيادلة متاحون الآن للإجابة على استفساراتك الدوائية خلال أقل من 3 دقائق
+            </p>
+</div>
+</div>
+<!-- Hero Visual Media with Floating Cards -->
+<div class="lg:col-span-5 relative mt-space-lg lg:mt-0">
+<div class="relative mx-auto max-w-md lg:max-w-none">
+<!-- Glassy background cushion -->
+<div class="absolute -inset-4 bg-gradient-to-tr from-primary/20 to-tertiary-fixed-dim/20 rounded-3xl filter blur-xl"></div>
+<!-- Hero Pharmacist Image Container -->
+<div class="relative overflow-hidden rounded-2xl shadow-xl bg-surface-container-lowest">
+<img alt="صيدلي خبير في صيدلية سلاق Sallaq Pharmacy يقدم استشارة طبية متخصصة" class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnZjUyjpkOxmDhIHwyhjCGCzjhhqcYzFjqyBhQVIEXjCfP9T6wGvaaJCWuimL6PZB_IM7RbRKElAixAZ5dRyguPBVKEdS-d1QUt7Kt0RJfFnN4kUKehhjInN0JExiSb3s5I77_eBjpZOpTsLIaWXuCkogwTjeWo6WanAKS1VRBcHqGPFCHgafJhKcx90BtAV9w61cz_PNyKsJQpuTwHkr3FH2tQe6x0N2KeDWXOQohOI1EpRSH3L-keg">
+<!-- Subtle gradient scrim at bottom -->
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/70 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 right-4 left-4 text-on-primary flex items-center justify-between">
+<div>
+<p class="font-headline-sm text-headline-sm font-bold text-on-primary">د. عبد الرحمن الزهراني</p>
+<p class="font-body-sm text-body-sm text-primary-fixed">كبير الصيادلة الإكلينيكيين</p>
+</div>
+<div class="px-space-sm py-1 rounded-full bg-primary/80 backdrop-blur-sm text-on-primary font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">verified</span>
+<span class="">معتمد SCFHS</span>
+</div>
+</div>
+</div>
+<!-- Floating Stat Card 1 -->
+<div class="absolute -top-6 -right-6 sm:-right-8 bg-surface-container-lowest/95 backdrop-blur-md p-space-md rounded-xl shadow-lg flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">prescriptions</span>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-primary font-bold leading-none">+15,000</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">استشارة ناجحة هذا العام</p>
+</div>
+</div>
+<!-- Floating Stat Card 2 -->
+<div class="absolute -bottom-6 -left-4 sm:-left-6 bg-surface-container-lowest/95 backdrop-blur-md px-space-md py- space-sm py-3 rounded-xl shadow-lg flex items-center gap-space-xs">
+<div class="w-9 h-9 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-lg leading-none" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div>
+<div class="flex items-center gap-1">
+<span class="font-headline-sm text-headline-sm text-tertiary font-bold leading-none">4.9</span>
+<span class="text-xs text-on-surface-variant font-label-sm">من 5.0</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">تقييم أكثر من 8,200 مريض</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><!-- FLASH DEALS SECTION (عروض حصرية لفترة محدودة) -->
+<section class="w-full py-space-xl bg-surface relative overflow-hidden" id="flash-deals-section">
+  <!-- Background warmth glow -->
+  <div class="absolute top-0 right-1/4 w-96 h-96 bg-tertiary/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-0 left-10 w-80 h-80 bg-tertiary-fixed-dim/20 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-margin-sm lg:px-margin relative z-10">
+    <!-- Flash Deal Header & Countdown Banner -->
+    <div class="rounded-3xl p-space-md sm:p-space-lg bg-gradient-to-tr from-on-background via-inverse-surface to-on-surface text-surface shadow-2xl border-2 border-tertiary-fixed-dim/40 mb-space-lg relative overflow-hidden animate-on-scroll slide-left">
+      <!-- Fire decorative glow gradient overlay -->
+      <div class="absolute -top-12 -left-12 w-64 h-64 bg-tertiary-container/30 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-12 -right-12 w-64 h-64 bg-tertiary/40 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-space-md">
+        <!-- Flash Title & Badge -->
+        <div class="flex flex-col items-center lg:items-start text-center lg:text-right gap-space-xs">
+          <div class="inline-flex items-center gap-1.5 px-space-md py-1 rounded-full bg-tertiary text-on-tertiary font-label-md text-label-md font-bold shadow-md pulse-gold">
+            <span class="material-symbols-outlined text-lg animate-bounce">local_fire_department</span>
+            <span class="">عروض نارية حارقة • لفترة محدودة جداً</span>
+          </div>
+          <h2 class="font-headline-xl text-headline-xl text-surface font-bold mt-1 tracking-tight">
+            خصومات تصل حتى <span class="text-tertiary-fixed-dim">50%</span> على الأجهزة وباقات العناية
+          </h2>
+          <p class="font-body-md text-body-md text-surface-variant max-w-xl">
+            وفر الآن على أهم المستلزمات الطبية والأدوية الوقائية الأصلية، الكميات المخصصة للعرض محدودة للغاية وتنتهي فور نفاد المخزون.
+          </p>
+        </div>
+
+        <!-- Countdown Timer Unit -->
+        <div class="bg-on-background/80 backdrop-blur-md px-space-lg py-space-md rounded-2xl border border-tertiary-fixed-dim/30 shadow-xl flex flex-col items-center gap-space-xs shrink-0">
+          <div class="flex items-center gap-1.5 text-tertiary-fixed-dim font-label-sm text-label-sm font-bold">
+            <span class="material-symbols-outlined text-base animate-spin">timer</span>
+            <span class="">ينتهي العرض خلال:</span>
+          </div>
+          <div class="flex items-center gap-space-xs text-center" dir="ltr">
+            <!-- Hours Box -->
+            <div class="flex flex-col items-center">
+              <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-surface-container-lowest text-on-surface flex items-center justify-center font-headline-xl text-headline-xl font-bold shadow-md border border-tertiary-fixed-dim/30" id="flash-hours">
+                08
+              </div>
+              <span class="text-xs font-label-sm text-surface-variant mt-1">ساعة</span>
+            </div>
+            <span class="text-2xl font-bold text-tertiary-fixed-dim pb-4">:</span>
+            <!-- Minutes Box -->
+            <div class="flex flex-col items-center">
+              <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-surface-container-lowest text-on-surface flex items-center justify-center font-headline-xl text-headline-xl font-bold shadow-md border border-tertiary-fixed-dim/30" id="flash-minutes">
+                42
+              </div>
+              <span class="text-xs font-label-sm text-surface-variant mt-1">دقيقة</span>
+            </div>
+            <span class="text-2xl font-bold text-tertiary-fixed-dim pb-4">:</span>
+            <!-- Seconds Box -->
+            <div class="flex flex-col items-center">
+              <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-tertiary-container text-on-tertiary flex items-center justify-center font-headline-xl text-headline-xl font-bold shadow-md animate-pulse" id="flash-seconds">
+                19
+              </div>
+              <span class="text-xs font-label-sm text-tertiary-fixed-dim mt-1 font-bold">ثانية</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </header>
 
-  <section class="hero">
-    <div class="hero-inner">
-      <h1>صيدليتك أقرب من ما تتخيل 🧡</h1>
-      <p>أدوية، فيتامينات، منتجات البشرة وأدوات طبية بأسعار مناسبة. اختر منتجاتك، أرسل طلبك، ونوصلها لأقرب فرع صيدلية السلاق.</p>
-      <div class="hero-badges">
-        <span class="hero-badge">🛵 توصيل سريع</span>
-        <span class="hero-badge">💬 تأكيد الطلب عبر واتساب</span>
-        <span class="hero-badge">💰 الدفع عند الاستلام</span>
+    <!-- Flash Deal Product Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+      <!-- Flash Item 1: جهاز قياس ضغط الدم الذكي -->
+      <div class="group bg-surface-container-lowest rounded-2xl p-space-md shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between border-2 border-tertiary/20 hover:border-tertiary-container relative">
+        <!-- Fire discount ribbon -->
+        <div class="absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-bold shadow-sm pulse-gold">
+          <span class="material-symbols-outlined text-sm leading-none">local_fire_department</span>
+          <span class="">خصم 45%</span>
+        </div>
+
+        <div>
+          <div class="relative overflow-hidden rounded-xl bg-surface-container-low h-48 mb-space-md flex items-center justify-center">
+            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6upfd5UUj2ncC-uBmU_359tzhsZpJ_Hi3i54nma1__GOLRFOjqvA_6R3Oev_ErKNUDgvFIXbFqFn3di8PZlAgTKSWFFwjFCkX7lTzsnsfFo_R-2bzPbj9oT47GnIi6HZ5ybfDXexaPwsxsjJEy7NiuIaPuabtttAP2S9h54DIchdCLlwESikhjLbfAaSE32k4UpLXHfh8MaGqsluzrm2P3_al49h8LTvlq1L1AHuE00nvfJPGo86oGQ" alt="جهاز قياس ضغط الدم الرقمي الدقيق">
+            <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-on-background/70 backdrop-blur-sm text-surface font-label-sm text-xs">ضمان سنتين</span>
+          </div>
+          <span class="text-tertiary font-label-sm text-label-sm font-bold inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">monitor_heart</span> أجهزة طبية وتشخيص
+          </span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1 group-hover:text-primary transition-colors">
+            جهاز قياس ضغط الدم الرقمي الذكي
+          </h3>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">
+            قراءة سريرية معتمدة مع كاشف اضطراب نبضات القلب وذاكرة لشخصين تتسع لـ 120 فحصاً.
+          </p>
+        </div>
+
+        <div class="pt-space-md">
+          <!-- Stock progress meter -->
+          <div class="mb-space-sm">
+            <div class="flex items-center justify-between text-xs font-label-sm mb-1">
+              <span class="text-tertiary font-bold">تم حجز 85% من الكمية</span>
+              <span class="text-on-surface-variant">متبقي 6 قطع فقط!</span>
+            </div>
+            <div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+              <div class="h-full bg-tertiary-container rounded-full" style="width: 85%"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mb-space-sm">
+            <div class="flex items-baseline gap-1">
+              <span class="font-headline-md text-headline-md text-tertiary font-bold">149</span>
+              <span class="font-label-sm text-label-sm text-on-surface-variant">ر.س</span>
+            </div>
+            <span class="line-through text-on-surface-variant/60 font-label-sm text-label-sm">270 ر.س</span>
+          </div>
+          <button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary py-2.5 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(this, 'جهاز قياس الضغط الذكي')" type="button">
+            <span class="material-symbols-outlined text-lg">bolt</span>
+            <span class="">اغتنم العرض الآن</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Flash Item 2: باقة المناعة الشاملة VIP -->
+      <div class="group bg-surface-container-lowest rounded-2xl p-space-md shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between border-2 border-tertiary/20 hover:border-tertiary-container relative">
+        <!-- Fire discount ribbon -->
+        <div class="absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-bold shadow-sm pulse-gold">
+          <span class="material-symbols-outlined text-sm leading-none">local_fire_department</span>
+          <span class="">خصم 40%</span>
+        </div>
+
+        <div>
+          <div class="relative overflow-hidden rounded-xl bg-surface-container-low h-48 mb-space-md flex items-center justify-center">
+            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcDeiXf6zDnkrQRkCbIxIhC548enPZJLlaYTdSs-zcd27k3tKr230EGD5NfOj7ZSIp6x6qEDq2wjUYZJOOTBvRmuZfxL2nNFXhSQcV1irWtF3I4chhFidhqxXrpDs46keiAY68USRUaE-p2R7vpEL__b5EaIKIPjnr5w2RL6fJtrgOjdXqH6x9eWCdIY0gri45TMf5wd8hx9CgOR0P_2CF2O1VT-zGoUHZW6R_qfard0SXJKP-IBwKOg" alt="باقة المناعة اليومية والحيوية الشاملة">
+            <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-on-background/70 backdrop-blur-sm text-surface font-label-sm text-xs">حزمة توفير 3 أشهر</span>
+          </div>
+          <span class="text-tertiary font-label-sm text-label-sm font-bold inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">shield_with_heart</span> فيتامينات ومناعة
+          </span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1 group-hover:text-primary transition-colors">
+            باقة المناعة الشاملة (C + Zinc + D3)
+          </h3>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">
+            تركيبة الحماية الثلاثية المركزة مع خلاصة الإلدربيري لتقوية جهاز المناعة اليومي والحفاظ على الطاقة.
+          </p>
+        </div>
+
+        <div class="pt-space-md">
+          <!-- Stock progress meter -->
+          <div class="mb-space-sm">
+            <div class="flex items-center justify-between text-xs font-label-sm mb-1">
+              <span class="text-tertiary font-bold">تم حجز 78% من الكمية</span>
+              <span class="text-on-surface-variant">متبقي 9 عبوات</span>
+            </div>
+            <div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+              <div class="h-full bg-tertiary-container rounded-full" style="width: 78%"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mb-space-sm">
+            <div class="flex items-baseline gap-1">
+              <span class="font-headline-md text-headline-md text-tertiary font-bold">110</span>
+              <span class="font-label-sm text-label-sm text-on-surface-variant">ر.س</span>
+            </div>
+            <span class="line-through text-on-surface-variant/60 font-label-sm text-label-sm">185 ر.س</span>
+          </div>
+          <button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary py-2.5 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(this, 'باقة المناعة الشاملة')" type="button">
+            <span class="material-symbols-outlined text-lg">bolt</span>
+            <span class="">اغتنم العرض الآن</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Flash Item 3: سيروم النضارة ومكافحة التجاعيد -->
+      <div class="group bg-surface-container-lowest rounded-2xl p-space-md shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between border-2 border-tertiary/20 hover:border-tertiary-container relative">
+        <!-- Fire discount ribbon -->
+        <div class="absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-bold shadow-sm pulse-gold">
+          <span class="material-symbols-outlined text-sm leading-none">local_fire_department</span>
+          <span class="">خصم 50%</span>
+        </div>
+
+        <div>
+          <div class="relative overflow-hidden rounded-xl bg-surface-container-low h-48 mb-space-md flex items-center justify-center">
+            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKray3LXqLKh1auQfH7uLRASffI7BYV_BvnaoFqy9QHmEKOAd3z-lrLKTZDj1IBOV4r5KONM_FAaS04DiRvMyRLYvf86azq2I_QwqdRl8TwbektCz-a5HOfgvb24diIxJ5LU5vb9MUYxVAF94kIqhFGy8CZyDmXtGgrxHbXNUxSEshxOJhCFb_tG1BF5oObLW-150mmBhtSht9ndWCLsAb0ECgNGb_zOXkETqtN6uropzQKIPPXEB_Bg" alt="سيروم الهيالورونيك والريتينول الطبي">
+            <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-on-background/70 backdrop-blur-sm text-surface font-label-sm text-xs">موصى به جلدياً</span>
+          </div>
+          <span class="text-tertiary font-label-sm text-label-sm font-bold inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">spa</span> عناية تخصصية بالبشرة
+          </span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1 group-hover:text-primary transition-colors">
+            سيروم التجديد المركز بالنياسيناميد 10%
+          </h3>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">
+            يقلل التصبغات ومسام البشرة الواسعة ويعزز إنتاج الكولاجين الطبيعي مع نتائج سريرية خلال أسبوعين.
+          </p>
+        </div>
+
+        <div class="pt-space-md">
+          <!-- Stock progress meter -->
+          <div class="mb-space-sm">
+            <div class="flex items-center justify-between text-xs font-label-sm mb-1">
+              <span class="text-tertiary font-bold">تم حجز 92% من الكمية</span>
+              <span class="text-on-surface-variant">متبقي 4 عبوات</span>
+            </div>
+            <div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+              <div class="h-full bg-tertiary-container rounded-full" style="width: 92%"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mb-space-sm">
+            <div class="flex items-baseline gap-1">
+              <span class="font-headline-md text-headline-md text-tertiary font-bold">95</span>
+              <span class="font-label-sm text-label-sm text-on-surface-variant">ر.س</span>
+            </div>
+            <span class="line-through text-on-surface-variant/60 font-label-sm text-label-sm">190 ر.س</span>
+          </div>
+          <button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary py-2.5 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(this, 'سيروم التجديد المركز')" type="button">
+            <span class="material-symbols-outlined text-lg">bolt</span>
+            <span class="">اغتنم العرض الآن</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Flash Item 4: جهاز قياس السكر الفوري الذكي -->
+      <div class="group bg-surface-container-lowest rounded-2xl p-space-md shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between border-2 border-tertiary/20 hover:border-tertiary-container relative">
+        <!-- Fire discount ribbon -->
+        <div class="absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-bold shadow-sm pulse-gold">
+          <span class="material-symbols-outlined text-sm leading-none">local_fire_department</span>
+          <span class="">خصم 35%</span>
+        </div>
+
+        <div>
+          <div class="relative overflow-hidden rounded-xl bg-surface-container-low h-48 mb-space-md flex items-center justify-center">
+            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqxqwEKjF7u_LIZGQLGsVceimvCks-Pr2NP5sCeabACCY8ZoDLld5MDHG75BMH0ExAYYBhvT4a4ZIdoOZ8gDq3ex1LuLGfnqIFz8w7kOAD4967m4f7fzea3yv-UTt-0d2kyfAw4-gj2sBZaODAFn6tFPYHPUNSM1Z42pO1FKDHwIM6vYqFaKIJoqZDsMU-fE-65u81cEhTcXCg0OiRTeeUlqEm7ZWGXYM68S5mqnEEdi80d2VgQnMB9Q" alt="طقم جهاز فحص السكر مع 50 شريط هدية">
+            <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-on-background/70 backdrop-blur-sm text-surface font-label-sm text-xs">+ 50 شريط فحص هدية</span>
+          </div>
+          <span class="text-tertiary font-label-sm text-label-sm font-bold inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">bloodtype</span> رعاية السكري المزمن
+          </span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1 group-hover:text-primary transition-colors">
+            طقم فحص السكر الدقيق مع علبة شرائط
+          </h3>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">
+            نتائج خلال 5 ثوان فقط بدون تشفير مسبق، مع تنبيهات عند انخفاض أو ارتفاع مؤشر الجلوكوز.
+          </p>
+        </div>
+
+        <div class="pt-space-md">
+          <!-- Stock progress meter -->
+          <div class="mb-space-sm">
+            <div class="flex items-center justify-between text-xs font-label-sm mb-1">
+              <span class="text-tertiary font-bold">تم حجز 70% من الكمية</span>
+              <span class="text-on-surface-variant">متبقي 11 طقماً</span>
+            </div>
+            <div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+              <div class="h-full bg-tertiary-container rounded-full" style="width: 70%"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mb-space-sm">
+            <div class="flex items-baseline gap-1">
+              <span class="font-headline-md text-headline-md text-tertiary font-bold">88</span>
+              <span class="font-label-sm text-label-sm text-on-surface-variant">ر.س</span>
+            </div>
+            <span class="line-through text-on-surface-variant/60 font-label-sm text-label-sm">135 ر.س</span>
+          </div>
+          <button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary py-2.5 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(this, 'طقم فحص السكر الذكي')" type="button">
+            <span class="material-symbols-outlined text-lg">bolt</span>
+            <span class="">اغتنم العرض الآن</span>
+          </button>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section><section class="w-full py-space-xl bg-surface-container-low" id="products-section"><div class="max-w-7xl mx-auto px-margin-sm lg:px-margin"><div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl animate-on-scroll slide-right"><div class="flex flex-col gap-space-xs"><span class="text-primary font-label-md text-label-md font-bold inline-flex items-center gap-1"><span class="material-symbols-outlined text-base">local_mall</span> الأصناف الأكثر طلباً وموثوقية</span><h2 class="font-headline-xl text-headline-xl text-on-surface font-bold">أهم أقسام المنتجات الصيدلانية</h2><p class="font-body-md text-body-md text-on-surface-variant">منتجات مختارة بعناية فائقة، مضمونة التخزين، ومعتمدة من الهيئة العامة للغذاء والدواء.</p></div><div class="flex items-center flex-wrap gap-space-xs bg-surface-container p-1 rounded-xl" id="product-tabs"><button class="product-tab-btn px-space-md py-2 rounded-lg font-label-md text-label-md bg-primary text-on-primary font-bold transition-all" onclick="filterProducts('all', this)" type="button">الكل</button><button class="product-tab-btn px-space-md py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all" onclick="filterProducts('دواء', this)" type="button">الأدوية</button><button class="product-tab-btn px-space-md py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all" onclick="filterProducts('فيتامين', this)" type="button">الفيتامينات</button><button class="product-tab-btn px-space-md py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all" onclick="filterProducts('بشرة', this)" type="button">العناية بالبشرة</button><button class="product-tab-btn px-space-md py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all" onclick="filterProducts('أدوات', this)" type="button">الأدوات الطبية</button><button class="product-tab-btn px-space-md py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all" onclick="filterProducts('أخرى', this)" type="button">أخرى</button></div><div class="products-grid animate-on-scroll stagger-children" id="productsGrid"></div>
+      </div><div class="grid products-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-gutter" id="products-grid"><div class="product-card group bg-surface-container-lowest rounded-2xl p-space-md shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-category="فيتامين"><div><div class="relative overflow-hidden rounded-xl bg-surface-container-low h-48 mb-space-md flex items-center justify-center"><img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean pharmaceutical white bottle of Vitamin C with Zinc and Elderberry extract on a clean clinical backdrop with soft emerald green lighting reflections and floating citrus water drops." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcDeiXf6zDnkrQRkCbIxIhC548enPZJLlaYTdSs-zcd27k3tKr230EGD5NfOj7ZSIp6x6qEDq2wjUYZJOOTBvRmuZfxL2nNFXhSQcV1irWtF3I4chhFidhqxXrpDs46keiAY68USRUaE-p2R7vpEL__b5EaIKIPjnr5w2RL6fJtrgOjdXqH6x9eWCdIY0gri45TMf5wd8hx9CgOR0P_2CF2O1VT-zGoUHZW6R_qfard0SXJKP-IBwKOg"><span class="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-bold shadow-sm">الأكثر طلباً</span><span class="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-surface-container-lowest/90 backdrop-blur-sm text-primary font-label-sm text-label-sm">أصلي 100%</span></div><span class="text-on-surface-variant font-label-sm text-label-sm">المناعة ومقاومة الإجهاد</span><h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1 group-hover:text-primary transition-colors">مركب فيتامين سي 1000 مع الزنك</h3><p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">تركيبة فوارة سريعة الامتصاص لتعزيز المناعة اليومية والحيوية العامة.</p></div><div class="pt-space-md"><div class="flex items-center justify-between mb-space-sm"><div class="flex items-baseline gap-1"><span class="font-headline-md text-headline-md text-primary font-bold">68</span><span class="font-label-sm text-label-sm text-on-surface-variant">ر.س</span></div><span class="line-through text-on-surface-variant/60 font-label-sm text-label-sm">85 ر.س</span></div><button class="w-full bg-primary hover:bg-primary-container text-on-primary py-2.5 rounded-lg font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(this, 'مركب فيتامين سي')" type="button"><span class="material-symbols-outlined text-lg">add_shopping_cart</span><span class="">أضف للسلة / اطلب الآن</span></button></div></div><div class="product-card group bg-surface-container-lowest rounded-2xl p-space-md shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-category="بشرة"><div><div class="relative overflow-hidden rounded-xl bg-surface-container-low h-48 mb-space-md flex items-center justify-center"><img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern medical skincare serum glass bottle with dropper with hyaluronic acid and niacinamide liquid on a hygienic clinical marble countertop with botanical green leaves." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKray3LXqLKh1auQfH7uLRASffI7BYV_BvnaoFqy9QHmEKOAd3z-lrLKTZDj1IBOV4r5KONM_FAaS04DiRvMyRLYvf86azq2I_QwqdRl8TwbektCz-a5HOfgvb24diIxJ5LU5vb9MUYxVAF94kIqhFGy8CZyDmXtGgrxHbXNUxSEshxOJhCFb_tG1BF5oObLW-150mmBhtSht9ndWCLsAb0ECgNGb_zOXkETqtN6uropzQKIPPXEB_Bg"><span class="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold shadow-sm">خصم 20%</span><span class="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-surface-container-lowest/90 backdrop-blur-sm text-primary font-label-sm text-label-sm">توصية أطباء الجلد</span></div><span class="text-on-surface-variant font-label-sm text-label-sm">عناية وترميم البشرة</span><h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1 group-hover:text-primary transition-colors">سيروم الهيالورونيك وفيتامين B5</h3><p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">ترطيب عميق وتجديد حاجز البشرة مع استعادة النضارة والمرونة الطبيعية.</p></div><div class="pt-space-md"><div class="flex items-center justify-between mb-space-sm"><div class="flex items-baseline gap-1"><span class="font-headline-md text-headline-md text-primary font-bold">144</span><span class="font-label-sm text-label-sm text-on-surface-variant">ر.س</span></div><span class="line-through text-on-surface-variant/60 font-label-sm text-label-sm">180 ر.س</span></div><button class="w-full bg-primary hover:bg-primary-container text-on-primary py-2.5 rounded-lg font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(this, 'سيروم الهيالورونيك')" type="button"><span class="material-symbols-outlined text-lg">add_shopping_cart</span><span class="">أضف للسلة / اطلب الآن</span></button></div></div><div class="product-card group bg-surface-container-lowest rounded-2xl p-space-md shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-category="فيتامين"><div><div class="relative overflow-hidden rounded-xl bg-surface-container-low h-48 mb-space-md flex items-center justify-center"><img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="High quality joint health supplement pills bottle with omega 3, glucosamine and chondroitin capsules neatly arranged on a clean teal and white medical studio presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6upfd5UUj2ncC-uBmU_359tzhsZpJ_Hi3i54nma1__GOLRFOjqvA_6R3Oev_ErKNUDgvFIXbFqFn3di8PZlAgTKSWFFwjFCkX7lTzsnsfFo_R-2bzPbj9oT47GnIi6HZ5ybfDXexaPwsxsjJEy7NiuIaPuabtttAP2S9h54DIchdCLlwESikhjLbfAaSE32k4UpLXHfh8MaGqsluzrm2P3_al49h8LTvlq1L1AHuE00nvfJPGo86oGQ"><span class="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold shadow-sm">صحة كبار السن</span><span class="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-surface-container-lowest/90 backdrop-blur-sm text-primary font-label-sm text-label-sm">نقي 100%</span></div><span class="text-on-surface-variant font-label-sm text-label-sm">دعم المفاصل والعظام</span><h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1 group-hover:text-primary transition-colors">جلوكوزامين بلس مع الكولاجين البحري</h3><p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">تركيبة علاجية متطورة لمرونة المفاصل وتخفيف الاحتكاك لكبار السن والرياضيين.</p></div><div class="pt-space-md"><div class="flex items-center justify-between mb-space-sm"><div class="flex items-baseline gap-1"><span class="font-headline-md text-headline-md text-primary font-bold">120</span><span class="font-label-sm text-label-sm text-on-surface-variant">ر.س</span></div><span class="line-through text-on-surface-variant/60 font-label-sm text-label-sm">150 ر.س</span></div><button class="w-full bg-primary hover:bg-primary-container text-on-primary py-2.5 rounded-lg font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(this, 'جلوكوزامين بلس')" type="button"><span class="material-symbols-outlined text-lg">add_shopping_cart</span><span class="">أضف للسلة / اطلب الآن</span></button></div></div><div class="product-card group bg-surface-container-lowest rounded-2xl p-space-md shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-category="فيتامين"><div><div class="relative overflow-hidden rounded-xl bg-surface-container-low h-48 mb-space-md flex items-center justify-center"><img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Organic gentle baby care lotion and moisturizing wash bottle with chamomile and natural calendula extract next to soft cotton towels in a luminous bright nursery setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqxqwEKjF7u_LIZGQLGsVceimvCks-Pr2NP5sCeabACCY8ZoDLld5MDHG75BMH0ExAYYBhvT4a4ZIdoOZ8gDq3ex1LuLGfnqIFz8w7kOAD4967m4f7fzea3yv-UTt-0d2kyfAw4-gj2sBZaODAFn6tFPYHPUNSM1Z42pO1FKDHwIM6vYqFaKIJoqZDsMU-fE-65u81cEhTcXCg0OiRTeeUlqEm7ZWGXYM68S5mqnEEdi80d2VgQnMB9Q"><span class="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold shadow-sm">الأم والطفل</span><span class="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-surface-container-lowest/90 backdrop-blur-sm text-primary font-label-sm text-label-sm">خالٍ من العطور</span></div><span class="text-on-surface-variant font-label-sm text-label-sm">حديثي الولادة والرضع</span><h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1 group-hover:text-primary transition-colors">لوشن وبخاخ الأطفال بالبابونج الطبيعي</h3><p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">حماية فائقة من التحسس والالتهابات الجلدية مصمم لبشرة الرضيع الحساسة.</p></div><div class="pt-space-md"><div class="flex items-center justify-between mb-space-sm"><div class="flex items-baseline gap-1"><span class="font-headline-md text-headline-md text-primary font-bold">55</span><span class="font-label-sm text-label-sm text-on-surface-variant">ر.س</span></div><span class="line-through text-on-surface-variant/60 font-label-sm text-label-sm">70 ر.س</span></div><button class="w-full bg-primary hover:bg-primary-container text-on-primary py-2.5 rounded-lg font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(this, 'لوشن الأطفال بالبابونج')" type="button"><span class="material-symbols-outlined text-lg">add_shopping_cart</span><span class="">أضف للسلة / اطلب الآن</span></button></div></div></div></div></section>
+<!-- 2. ABOUT US SECTION WITH INTERACTIVE METRICS -->
 
-  <main>
-    <div class="categories" id="categories" aria-live="polite"></div>
-    <div class="grid" id="products"></div>
-  </main>
+<!-- 3. SERVICES SECTION (6 Bespoke Interactive Cards) -->
+<section class="w-full py-space-xl bg-surface-container-low" id="services-section">
+<div class="max-w-7xl mx-auto px-margin-sm lg:px-margin">
+<!-- Section Header -->
+<div class="text-center max-w-3xl mx-auto mb-space-xl flex flex-col items-center gap-space-xs animate-on-scroll slide-left">
+<span class="px-space-md py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md font-bold">
+          منظومة رعاية صيدلانية ذكية
+        </span>
+<h2 class="font-headline-xl text-headline-xl text-on-surface font-bold">
+          خدماتنا الصيدلانية الشاملة
+        </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+          صُممت خدماتنا لتلبي كافة متطلباتك الدوائية والوقائية براحة وسرعة فائقة وفق البروتوكولات الإكلينيكية الحديثة.
+        </p>
+</div>
+<!-- Services Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1: الإستشارة الدوائية والسريرية -->
+<div class="group bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="w-14 h-14 rounded-xl bg-secondary-container text-primary flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">stethoscope</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-xs">الاستشارة الدوائية والسريرية</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-md">
+              شرح تفصيلي للجرعات، أوقات الاستخدام، والتعارضات الدوائية والتفاعلات الغذائية مجاناً من قِبل صيادلة إكلينيكيين مختصين.
+            </p>
+</div>
+<div class="pt-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary font-bold">متاح حضورياً وعبر الهاتف</span>
+<a class="text-primary hover:text-primary-container inline-flex items-center gap-1 font-label-md text-label-md font-semibold" href="https://wa.me/966500000000?text=أرغب+في+استشارة+دوائية">
+<span class="">احجز استشارة</span>
+<span class="material-symbols-outlined text-sm rotate-180">arrow_back</span>
+</a>
+</div>
+</div>
+<!-- Card 2: خدمة التوصيل السريع والمبرد -->
+<div class="group bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="w-14 h-14 rounded-xl bg-primary-fixed text-on-primary-fixed flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">ac_unit</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-xs">خدمة التوصيل السريع والمبرد</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-md">
+              نقل مخصص للأدوية الحساسة كالأنسولين وحقن المناعة بسيارات وصناديق مبردة مزودة بمستشعرات حرارية لضمان فاعلية الدواء التامة.
+            </p>
+</div>
+<div class="pt-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-tertiary font-bold">خلال 30 دقيقة داخل المدينة</span>
+<a class="text-primary hover:text-primary-container inline-flex items-center gap-1 font-label-md text-label-md font-semibold" href="https://wa.me/966500000000?text=أريد+طلب+توصيل+سريع">
+<span class="">طلب توصيل الآن</span>
+<span class="material-symbols-outlined text-sm rotate-180">arrow_back</span>
+</a>
+</div>
+</div>
+<!-- Card 3: الفحوصات الطبية الدورية -->
+<div class="group bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="w-14 h-14 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">vital_signs</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-xs">الفحوصات الطبية الدورية</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-md">
+              قياس دقيق لضغط الدم، مستوى السكر التراكمي والسريع، مؤشر كتلة الجسم (BMI)، وفحوصات سريعة فورية داخل صالة الصيدلية.
+            </p>
+</div>
+<div class="pt-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold">فحص فوري بدون انتظار</span>
+<span class="inline-flex items-center gap-1 text-primary font-label-md text-label-md font-semibold cursor-pointer">
+<span class="">تفاصيل الفحص</span>
+<span class="material-symbols-outlined text-sm rotate-180">arrow_back</span>
+</span>
+</div>
+</div>
+<!-- Card 4: تجهيز وتكرار الوصفات المزمنة -->
+<div class="group bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="w-14 h-14 rounded-xl bg-surface-container-high text-on-surface-variant flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">event_repeat</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-xs">تجهيز وتكرار الوصفات المزمنة</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-md">
+              نظام مجدول يرسل تنبيهات تلقائية قبل نفاد أدوية الأمراض المزمنة، مع خيار التوصيل التلقائي شهرياً إلى عتبة منزلك.
+            </p>
+</div>
+<div class="pt-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary font-bold">خدمة اشتراك مجانية</span>
+<a class="text-primary hover:text-primary-container inline-flex items-center gap-1 font-label-md text-label-md font-semibold" href="https://wa.me/966500000000?text=تسجيل+وصفة+مزمنة">
+<span class="">تفعيل التكرار</span>
+<span class="material-symbols-outlined text-sm rotate-180">arrow_back</span>
+</a>
+</div>
+</div>
+<!-- Card 5: قسم العناية بالبشرة والجمال -->
+<div class="group bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="w-14 h-14 rounded-xl bg-secondary-container text-primary flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">face</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-xs">قسم العناية بالبشرة والجمال</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-md">
+              أفضل العلامات الطبية العلاجية الموصى بها من أطباء الجلدية، مع تحليل نوع البشرة وتقديم روتين علاجي متكامل ومخصص.
+            </p>
+</div>
+<div class="pt-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-tertiary font-bold">علامات فرنسية وعالمية</span>
+<a class="text-primary hover:text-primary-container inline-flex items-center gap-1 font-label-md text-label-md font-semibold" href="#products-section">
+<span class="">استعراض المنتجات</span>
+<span class="material-symbols-outlined text-sm rotate-180">arrow_back</span>
+</a>
+</div>
+</div>
+<!-- Card 6: المكملات والتغذية الرياضية -->
+<div class="group bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="w-14 h-14 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">fitness_center</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-xs">المكملات والتغذية الرياضية</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-md">
+              فيتامينات، معادن نقية، ومكملات بروتين معتمدة للرياضيين وكبار السن، مع تحديد الجرعات اليومية المناسبة لكل حالة صحية.
+            </p>
+</div>
+<div class="pt-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary font-bold">100% نقية ومفحوصة</span>
+<a class="text-primary hover:text-primary-container inline-flex items-center gap-1 font-label-md text-label-md font-semibold" href="#products-section">
+<span class="">تصفح المكملات</span>
+<span class="material-symbols-outlined text-sm rotate-180">arrow_back</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. FEATURED PRODUCTS CATEGORIES WITH INTERACTIVE TABS -->
 
-  <footer>
-    <div class="ws">
-      <h3>صيدلية السلاق</h3>
-      <p id="footAddress">غزة، جنوب المول البندا</p>
-      <p>ساعات العمل: <span id="footHours">7 صباحًا - 11 مساءً</span></p>
-      <p>للطلب: <a href="#" id="footWa" target="_blank" rel="noopener">واتساب مباشر</a></p>
+<!-- 5. WHY CHOOSE US (لماذا يثق بنا الجميع؟) -->
+
+<!-- 6. TESTIMONIALS SECTION (آراء وتجارب العملاء) -->
+
+<!-- 7. WORKING HOURS & INTERACTIVE LOCATION -->
+<section class="w-full py-space-xl bg-surface" id="hours-location-section">
+<div class="max-w-7xl mx-auto px-margin-sm lg:px-margin">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Schedule and Contact Details -->
+<div class="lg:col-span-6 flex flex-col gap-space-md animate-on-scroll slide-right">
+<div class="inline-flex items-center gap-space-xs text-primary font-label-lg text-label-lg font-bold">
+<span class="material-symbols-outlined text-xl">access_time_filled</span>
+<span class="">مواعيد العمل والموقع الجغرافي</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface font-bold">
+            جاهزون لخدمتك في كل ساعة وكل يوم
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            تفتح صيدليتنا الرئيسية أبوابها طوال أيام الأسبوع لتقديم الخدمة الطارئة والروتينية دون انقطاع، مع أسطول توصيل يغطي كافة الأحياء المجاورة.
+          </p>
+<!-- Hours Table Card -->
+<div class="bg-surface-container-low p-space-md rounded-2xl shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between p-space-sm bg-surface-container-lowest rounded-xl">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary">storefront</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">الفرع الرئيسي (طريق الملك فهد)</span>
+</div>
+<span class="px-space-sm py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">24 ساعة يومياً</span>
+</div>
+<div class="flex items-center justify-between p-space-sm bg-surface-container-lowest rounded-xl">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary">two_wheeler</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">خدمة التوصيل المنزلي السريع</span>
+</div>
+<span class="px-space-sm py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">متاح 24/7 طوال الأسبوع</span>
+</div>
+<div class="flex items-center justify-between p-space-sm bg-surface-container-lowest rounded-xl">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary">forum</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">الاستشارات الهاتفية والواتساب</span>
+</div>
+<span class="px-space-sm py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold">متاحة بدون توقف</span>
+</div>
+</div>
+<!-- Location Info Box -->
+<div class="p-space-md bg-secondary-container/40 rounded-2xl flex items-start gap-space-md">
+<span class="material-symbols-outlined text-primary text-3xl shrink-0 mt-1">pin_drop</span>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary font-bold">عنوان الصيدلية وسهولة الوصول</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+                المملكة العربية السعودية، الرياض، تقاطع طريق الملك فهد مع شارع التخصصي، بجوار مجمع العيادات التخصصية.
+              </p>
+<div class="flex flex-wrap items-center gap-space-md mt-space-sm text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-primary">local_parking</span> مواقف سيارات خاصة ومجانية للمراجعين</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-primary">accessible</span> مسارات مجهزة لذوي الإعاقة</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Embedded Map Visualization Card -->
+<div class="lg:col-span-6 flex flex-col gap-space-sm">
+<div class="relative w-full rounded-2xl overflow-hidden shadow-lg bg-surface-container-lowest">
+<!-- Map Container with data-location pipeline -->
+<div class="w-full h-96 bg-cover bg-center" data-location="King Fahd Road, Riyadh, Saudi Arabia" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD1tx_zuqftgIMGcJ5VIePy-Z-jTDc4nL1UJhtLJfY0Qu_SldWmX4lIW_kv5eJ9ZKWbZaTLGIdYNZIyzZ_-MerT3hp4PExyqWXy0CET9h1PuwsVuobGAteYQ2--FpRbJjHaveY2i4DrGMCJfs-1EIGCm0HGnsDXbWARyYgRNtQwZkqJPrryfcEszummKIPgqRGUDdDmvOWqAfaQxmMhUxf9Fa8cw49LsoCJhm2HNu_HLXF55IN0yLTsQg')"></div>
+<!-- Map Floating Info Badge -->
+<div class="p-space-md bg-surface-container-lowest flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-space-sm">
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface font-bold">صيدلية سلاق - الفرع الرئيسي</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">الرياض، المملكة العربية السعودية</p>
+</div>
+<a class="bg-primary hover:bg-primary-container text-on-primary px-space-md py-2.5 rounded-lg font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" href="https://maps.google.com" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-lg">directions</span>
+<span class="">افتح في خرائط جوجل</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. CONTACT FORM & INSTANT CHANNELS (تواصل معنا بسهولة) -->
+<section class="w-full py-space-xl bg-surface-container-low" id="contact-section">
+<div class="max-w-7xl mx-auto px-margin-sm lg:px-margin">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left Side: Channels & Direct Actions -->
+<div class="lg:col-span-5 flex flex-col gap-space-md animate-on-scroll slide-left">
+<div class="inline-flex items-center gap-space-xs text-primary font-label-lg text-label-lg font-bold">
+<span class="material-symbols-outlined text-xl">contact_support</span>
+<span class="">تواصل صيدلاني مباشر</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface font-bold">
+            نحن هنا لمساعدتك في أي وقت
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            سواء كنت بحاجة إلى استشارة فورية، طلب دواء نادر، أو الاستفسار عن جرعة محددة، طاقمنا الصيدلي متاح للإجابة عليك بسرعة فائقة وسرية تامة.
+          </p>
+<!-- Contact Channel Pills -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<a class="p-space-md bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-between" href="tel:920001234">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">call</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">الخط الساخن وطوارئ الصيدلية</span>
+<p class="font-headline-sm text-headline-sm text-on-surface font-bold" dir="ltr">920001234</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary rotate-180">arrow_back</span>
+</a>
+<a class="p-space-md bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-between" href="https://wa.me/966500000000" rel="noopener noreferrer" target="_blank">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-lg bg-tertiary-container text-on-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">chat</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">محادثة واتساب الفورية (أقل من دقيقتين)</span>
+<p class="font-headline-sm text-headline-sm text-on-surface font-bold" dir="ltr">+966 50 000 0000</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary rotate-180">arrow_back</span>
+</a>
+<a class="p-space-md bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-between" href="mailto:care@sallaq-pharmacy.com"><div class="flex items-center gap-space-sm"><div class="w-12 h-12 rounded-lg bg-secondary-container text-primary flex items-center justify-center"><span class="material-symbols-outlined text-2xl">mail</span></div><div><span class="font-label-sm text-label-sm text-on-surface-variant">البريد الإلكتروني للاستفسارات الرسمية</span><p class="font-headline-sm text-headline-sm text-on-surface font-bold" dir="ltr">care@sallaq-pharmacy.com</p></div></div><span class="material-symbols-outlined text-primary rotate-180">arrow_back</span></a>
+</div>
+</div>
+<!-- Right Side: Clean Medical Contact & Prescription Form -->
+<div class="lg:col-span-7 bg-surface-container-lowest p-space-lg rounded-3xl shadow-md">
+<h3 class="font-headline-lg text-headline-lg text-on-surface font-bold mb-space-xs">
+            أرسل استفسارك أو طلبك الدوائي
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+            سيقوم الصيدلي المناوب بدراسة طلبك ومراجعة التفاعلات الدوائية والتواصل معك فوراً.
+          </p>
+<form class="flex flex-col gap-space-md" id="pharmacy-contact-form" onsubmit="handleFormSubmit(event)">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="full-name">الاسم الكامل <span class="text-error">*</span></label>
+<input class="w-full px-space-md py-2.5 rounded-lg bg-surface text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest transition-all" id="full-name" placeholder="مثال: محمد عبدالله العتيبي" required="" type="text">
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="phone-number">رقم الجوال أو واتساب <span class="text-error">*</span></label>
+<input class="text-right w-full px-space-md py-2.5 rounded-lg bg-surface text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest transition-all" dir="ltr" id="phone-number" placeholder="05XXXXXXXX" required="" type="tel">
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="inquiry-type">موضوع الاستفسار <span class="text-error">*</span></label>
+<select class="w-full px-space-md py-2.5 rounded-lg bg-surface text-on-surface font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest transition-all" id="inquiry-type">
+<option value="prescription">طلب صرف أو تكرار وصفة طبية (روشتة)</option>
+<option value="consultation">استشارة صيدلانية وسريرية متخصصة</option>
+<option value="availability">استفسار عن توفر دواء أو مكمل غذائي</option>
+<option value="delivery">متابعة شحنة توصيل منزلي</option>
+<option value="suggestion">اقتراح أو ملاحظة عامة</option>
+</select>
+</div>
+<!-- File Upload Box (Prescription Hint) -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold">إرفاق صورة الوصفة الطبية (اختياري)</label>
+<div class="border-2 border-dashed border-outline-variant/60 rounded-xl p-space-md text-center bg-surface hover:bg-surface-container-low transition-colors cursor-pointer relative" onclick="document.getElementById('prescription-upload').click()">
+<input accept="image/*,.pdf" class="hidden" id="prescription-upload" onchange="handleFileUpload(this)" type="file">
+<span class="material-symbols-outlined text-primary text-3xl mb-1">cloud_upload</span>
+<p class="font-label-md text-label-md text-on-surface font-bold" id="upload-label">اضغط هنا لرفع صورة الروشتة أو التقرير الطبي</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">ندعم صيغ JPG, PNG, PDF حتى حجم 15 ميجابايت (بياناتك مشفرة ومحمية)</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="message-content">نص الرسالة أو تفاصيل الدواء المطلوب</label>
+<textarea class="w-full px-space-md py-2.5 rounded-lg bg-surface text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest transition-all resize-none" id="message-content" placeholder="اكتب اسم الدواء، الأعراض، أو أي تفاصيل ترغب في إيضاحها للصيدلي..." rows="3"></textarea>
+</div>
+<!-- Submit Button with Feedback -->
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary py-3.5 rounded-lg font-label-lg text-label-lg font-bold flex items-center justify-center gap-space-xs shadow-md transition-all" id="submit-btn" type="submit">
+<span class="material-symbols-outlined text-xl">send</span>
+<span class="">إرسال الطلب للصيدلي المناوب</span>
+</button>
+</form>
+<!-- Form Success Alert -->
+<div class="hidden mt-space-md p-space-md bg-secondary-container text-on-secondary-container rounded-xl flex items-center gap-space-sm" id="form-success-alert">
+<span class="material-symbols-outlined text-2xl text-primary">check_circle</span>
+<div>
+<p class="font-headline-sm text-headline-sm font-bold">تم استلام طلبك بنجاح!</p>
+<p class="font-body-sm text-body-sm">يقوم الصيدلي بمراجعة الوصفة وسيتواصل معك خلال دقائق عبر الواتساب أو الهاتف.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- MICRO INTERACTIVITY SCRIPT -->
+<script>
+    // Product Filtering Logic — works with both static and dynamic product cards
+    function filterProducts(category, btn) {
+      const buttons = document.querySelectorAll('.product-tab-btn');
+      buttons.forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'font-bold');
+        b.classList.add('text-on-surface-variant');
+      });
+      if (btn) {
+        btn.classList.add('bg-primary', 'text-on-primary', 'font-bold');
+        btn.classList.remove('text-on-surface-variant');
+      }
+
+      // Filter both static (inline) and dynamic (API-loaded) product cards
+      const cards = document.querySelectorAll('.product-card');
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category') || '';
+        if (category === 'all' || cat === category) {
+          card.style.display = '';
+          card.style.opacity = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Add to Cart Micro-interaction
+    function addToCart(button, productName) {
+      const originalHtml = button.innerHTML;
+      button.innerHTML = '<span class="material-symbols-outlined text-lg animate-spin">sync</span><span>جاري التجهيز...</span>';
+      button.disabled = true;
+
+      setTimeout(() => {
+        button.innerHTML = '<span class="material-symbols-outlined text-lg">done</span><span>تمت الإضافة!</span>';
+        button.classList.remove('bg-primary');
+        button.classList.add('bg-secondary');
+
+        // Show toast
+        const toast = document.getElementById('cart-toast');
+        const toastTitle = document.getElementById('cart-toast-title');
+        toastTitle.innerText = 'تمت إضافة ' + productName;
+        toast.classList.remove('translate-y-32', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+
+        setTimeout(() => {
+          toast.classList.remove('translate-y-0', 'opacity-100');
+          toast.classList.add('translate-y-32', 'opacity-0');
+          button.innerHTML = originalHtml;
+          button.classList.add('bg-primary');
+          button.classList.remove('bg-secondary');
+          button.disabled = false;
+        }, 3500);
+      }, 500);
+    }
+
+    // Form Submission & Upload simulation
+    function handleFileUpload(input) {
+      if (input.files && input.files[0]) {
+        const fileName = input.files[0].name;
+        document.getElementById('upload-label').innerText = 'تم اختيار الملف: ' + fileName;
+      }
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.innerHTML = '<span class="material-symbols-outlined text-lg animate-spin">sync</span><span>جاري الإرسال للصيدلي...</span>';
+      submitBtn.disabled = true;
+
+      setTimeout(() => {
+        document.getElementById('pharmacy-contact-form').reset();
+        document.getElementById('upload-label').innerText = 'اضغط هنا لرفع صورة الروشتة أو التقرير الطبي';
+        submitBtn.innerHTML = '<span class="material-symbols-outlined text-xl">send</span><span>إرسال الطلب للصيدلي المناوب</span>';
+        submitBtn.disabled = false;
+
+        const alertBox = document.getElementById('form-success-alert');
+        alertBox.classList.remove('hidden');
+        alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        setTimeout(() => {
+          alertBox.classList.add('hidden');
+        }, 7000);
+      }, 900);
+    }
+  </script>
+</div></main>
+<!-- Floating cart bar (populated by cart.js) -->
+<div class="cart-bar" id="cartBar">
+  <div class="cart-inner">
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-summary">
+      <span class="cart-total">المجموع: <span id="cartTotal">0.00</span> شيكل · <span id="cartCount">0</span> منتج</span>
+      <div class="cart-actions">
+        <button class="cart-btn clear" id="clearCart" type="button">مسح</button>
+        <a class="cart-btn whatsapp" id="checkoutBtn" href="#" target="_blank" rel="noopener">إتمام عبر واتساب</a>
+      </div>
     </div>
-  </footer>
+  </div>
+</div>
+<!-- Cart toast (used by inline addToCart) -->
+<div id="cart-toast" class="translate-y-32 opacity-0 transition-all duration-300" style="position:fixed;bottom:96px;left:0;right:0;margin:0 auto;width:fit-content;z-index:9999">
+  <div id="cart-toast-title" style="background:#1F4D39;color:#fff;padding:12px 24px;border-radius:12px;font-weight:700;font-size:14px">تمت الإضافة</div>
+</div>
+<footer class="w-full bg-surface-container-low text-on-surface pt-space-xl pb-space-lg shadow-[0_-1px_8px_rgba(6,78,59,0.03)]"><div class="max-w-7xl mx-auto px-margin-sm lg:px-margin"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-space-xl"><div class="flex flex-col gap-space-md"><div class="flex items-center gap-space-sm"><img alt="شعار صيدلية سلاق SALLAQ PHARMACY" class="h-11 w-auto object-contain rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp2BQSNPw1t1gI2KGZYr0d-O3uxfBgDAqsFy9rXVlQWkdJAQYfaGLkwXi9vzO0sTvrAGsnMMSGui7tyeX1urOFRp0XRM4RM8ami2VCvvlArkLgrisBfSoDuGof8a6d8hEa-EEhb09ziSPwE4ugH0hgi_cEBS1qHVsRshtYFpdaI-En4Frn0zr8-ZsmjGlocBa--VQwB5cG0IJv97m7X_4bYR6Wi5LmcSW0bDae0seC0v28dhvyg7X3Ev79JeQbG9ppGu4"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary font-bold">صيدلية سلاق</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">SALLAQ PHARMACY</span></div></div><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">نلتزم بتقديم رعاية صيدلانية نموذجية تتجاوز صرف الدواء لتشمل الإرشاد الدوائي المتكامل، وصرف الوصفات المعتمدة، والفحوصات الوقائية الدورية.</p><div class="inline-flex items-center gap-space-xs px-space-sm py-1.5 rounded-lg bg-surface-container-high text-primary font-label-sm text-label-sm"><span class="material-symbols-outlined text-base">verified_user</span><span class="">ترخيص هيئة الغذاء والدواء: #49281-SA</span></div></div><div class="flex flex-col gap-space-md"><h3 class="font-headline-sm text-headline-sm text-primary">روابط سريعة</h3><ul class="flex flex-col gap-space-xs font-body-sm text-body-sm text-on-surface-variant"><li class="flex items-center gap-space-xs hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm rotate-180">arrow_back</span><a data-path="about-us" href="#" class="">عن صيدلية سلاق (Sallaq)</a></li><li class="flex items-center gap-space-xs hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm rotate-180">arrow_back</span><a data-path="services" href="#">الاستشارات الدوائية والخدمات</a></li><li class="flex items-center gap-space-xs hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm rotate-180">arrow_back</span><a data-path="featured-products" href="#">كتالوج المنتجات والمكملات</a></li><li class="flex items-center gap-space-xs hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm rotate-180">arrow_back</span><a data-path="branches-and-hours" href="#">فروعنا ونقاط التوزيع المباشر</a></li><li class="flex items-center gap-space-xs hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm rotate-180">arrow_back</span><a data-path="contact-us" href="#">طلب إعادة صرف وصفة</a></li></ul></div><div class="flex flex-col gap-space-md"><h3 class="font-headline-sm text-headline-sm text-primary">ساعات العمل والخدمة</h3><div class="flex flex-col gap-space-sm font-body-sm text-body-sm text-on-surface-variant"><div class="flex items-start gap-space-xs"><span class="material-symbols-outlined text-primary text-base mt-0.5">access_time</span><div><p class="font-label-md text-label-md text-on-surface">الفروع الرئيسية:</p><p class="">السبت - الخميس: 8:00 ص - 12:00 ليلاً</p><p class="">الجمعة: 1:00 ظهراً - 12:00 ليلاً</p></div></div><div class="flex items-start gap-space-xs"><span class="material-symbols-outlined text-tertiary text-base mt-0.5">emergency</span><div><p class="font-label-md text-label-md text-on-surface">خدمة الطوارئ وصرف الوصفات:</p><p class="text-tertiary font-label-sm text-label-sm">متاحة 24/7 عبر الخط الساخن والواتساب</p></div></div></div></div><div class="flex flex-col gap-space-md"><h3 class="font-headline-sm text-headline-sm text-primary">بيانات الاتصال المباشر</h3><ul class="flex flex-col gap-space-sm font-body-sm text-body-sm text-on-surface-variant"><li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-base">call</span><span class="font-label-md text-label-md text-on-surface" dir="ltr">+966 11 400 9988</span></li><li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-base">mail</span><span class="font-body-sm text-body-sm" dir="ltr">care@sallaq-pharmacy.com</span></li><li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-base">pin_drop</span><span class="">المملكة العربية السعودية، الرياض - حي السليمانية</span></li></ul><div class="pt-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant block mb-space-xs">قنوات التواصل المهني:</span><div class="flex items-center gap-space-sm text-on-surface-variant"><a aria-label="موقع الصيدلية" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors" href="#"><span class="material-symbols-outlined text-lg">language</span></a><a aria-label="البريد الصيدلاني" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors" href="#"><span class="material-symbols-outlined text-lg">alternate_email</span></a><a aria-label="موقعنا الجغرافي" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors" href="#"><span class="material-symbols-outlined text-lg">map</span></a><a aria-label="المساعدة الهاتفية" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors" href="#"><span class="material-symbols-outlined text-lg">support_agent</span></a></div></div></div></div><div class="pt-space-md border-t border-surface-container-highest/60 flex flex-col sm:flex-row items-center justify-between gap-space-sm font-label-sm text-label-sm text-on-surface-variant"><p class="">© 2025 صيدلية سلاق (SALLAQ PHARMACY). جميع الحقوق محفوظة لوزارة الصحة والجهات التنظيمية الطبية.</p><div class="flex items-center gap-space-md"><span class="">سياسة الخصوصية الطبية</span><span class="">شروط صرف الأدوية</span><span class="">دليل المريض الدوائي</span></div></div></div></footer><div class="fixed bottom-6 left-6 z-50 flex items-center gap-space-xs"><a aria-label="تواصل مع الصيدلي عبر واتساب" class="pulse-whatsapp flex items-center gap-space-xs bg-primary hover:bg-primary-container text-on-primary px-space-md py-3 rounded-full shadow-[0_10px_25px_-5px_rgba(0,105,72,0.4)] transition-all" href="https://wa.me/966500000000" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-2xl leading-none text-primary-fixed">forum</span><span class="font-label-md text-label-md hidden md:inline font-bold">محادثة الصيدلي المناوب</span></a></div>
 
-  <!-- Cart drawer -->
-  <div class="drawer-overlay" id="overlay"></div>
-  <aside class="drawer" id="drawer" aria-hidden="true">
-    <div class="drawer-head">
-      <h2>سلة الطلب 🛒</h2>
-      <button class="icon-btn" id="closeCart" aria-label="إغلاق">✕</button>
-    </div>
-    <div class="drawer-body" id="cartBody"></div>
-    <div class="drawer-foot">
-      <div class="drawer-total">
-        <span>الإجمالي</span>
-        <span id="cartTotal">0 شيكل</span>
-      </div>
-      <div class="field">
-        <label for="custName">الاسم</label>
-        <input id="custName" type="text" placeholder="اسمك الكامل" autocomplete="name" />
-      </div>
-      <div class="field">
-        <label for="custPhone">رقم الهاتف / واتساب</label>
-        <input id="custPhone" type="tel" placeholder="مثال: 0595XXXXXXX" autocomplete="tel" dir="ltr" style="text-align:left" />
-      </div>
-      <div class="field">
-        <label for="custNotes">ملاحظات (اختياري)</label>
-        <textarea id="custNotes" rows="2" placeholder="أي تفاصيل إضافية…"></textarea>
-      </div>
-      <button class="checkout-btn" id="checkoutBtn">
-        <span class="label-txt">أرسل الطلب عبر واتساب 💬</span>
-        <span class="spinner">⏳</span>
-      </button>
-      <p class="hint">ستفتح رسالة واتساب جاهزة بصيدلية السلاق بعد الحفظ</p>
-    </div>
-  </aside>
-
-  <div class="toast-wrap" id="toasts" aria-live="polite"></div>
-
-  <script src="/assets/api.js"></script>
-  <script src="/assets/cart.js"></script>
-  <script src="/assets/app.js"></script>
-</body>
-</html>
+<script src="/assets/cart.js"></script>
+<script src="/assets/whatsapp.js"></script>
+<script src="/assets/app.js"></script>
+</body></html>
