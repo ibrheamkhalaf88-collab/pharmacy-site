@@ -8,7 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // ═══════════════════════════════════════════════
   // 1. IntersectionObserver — Scroll animations (تحسين: stagger مدروس لكل عنصر)
   // ═══════════════════════════════════════════════
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const wantsReducedMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  // `?motion=on` يتجاوز تفضيلات النظام (للمطور) — نفس log'ic المتبعة في epic-design.js
+  const forceMotion =
+    new URLSearchParams(window.location.search).has('motion') &&
+    new URLSearchParams(window.location.search).get('motion') !== 'off';
+  const prefersReducedMotion = wantsReducedMotion && !forceMotion;
 
   //Stagger delays by category of element for "just-appeared" feel
   const staggerMap = {
@@ -244,7 +249,13 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         }, 200);
       } else if (allCards.length) {
-        allCards.forEach(c => c.classList.add('reveal'));
+        // Reduced-motion: reveal instantly — MUST clear the inline hidden state too,
+        // otherwise cards stay invisible (inline opacity overrides CSS)
+        allCards.forEach(c => {
+          c.style.opacity = '';
+          c.style.transform = '';
+          c.classList.add('reveal');
+        });
       }
     } catch (err) {
       console.error('Error loading products:', err);
