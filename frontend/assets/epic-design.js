@@ -21,7 +21,13 @@
 (function () {
   'use strict';
 
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wantsReduced =
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // `?motion=on` يتجاوز تفضيلات النظام مؤقتاً (للمطور فقط) — يفعّل الأنميشن رغم إعدادات الجهاز
+  const forceMotion =
+    new URLSearchParams(window.location.search).has('motion') &&
+    new URLSearchParams(window.location.search).get('motion') !== 'off';
+  const reduced = wantsReduced && !forceMotion;
   const isCoarse = window.matchMedia('(pointer: coarse)').matches;
   const isMobile = window.innerWidth < 768 || isCoarse;
 
