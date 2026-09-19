@@ -411,6 +411,33 @@ if (cartBar && typeof Cart !== 'undefined') {
 // ═══════════════════════════════════════════════
 // 8. Init
 // ═══════════════════════════════════════════════
+// ── سحب شريط أقسام المنتجات يمين/يسار (drag-to-scroll) ──
+(function initProductsStrip() {
+  const strip = document.getElementById('product-tabs');
+  if (!strip) return;
+  let isDown = false, startX = 0, startScroll = 0, moved = false;
+  strip.addEventListener('pointerdown', (e) => {
+    isDown = true; moved = false;
+    startX = e.clientX;
+    startScroll = strip.scrollLeft;
+    strip.setPointerCapture && strip.setPointerCapture(e.pointerId);
+  });
+  strip.addEventListener('pointermove', (e) => {
+    if (!isDown) return;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 5) moved = true;
+    // في الصفحات العربية (RTL) تمرير scrollLeft سالب — نعكس الإشارة.
+    const rtl = getComputedStyle(strip).direction === 'rtl';
+    strip.scrollLeft = startScroll + (rtl ? dx : -dx);
+  });
+  const stop = (e) => {
+    if (moved && e && e.preventDefault) e.preventDefault();
+    isDown = false;
+  };
+  strip.addEventListener('pointerup', stop);
+  strip.addEventListener('pointercancel', () => { isDown = false; });
+})();
+
 loadProducts();
 if (typeof Cart !== 'undefined') Cart.render();
 });

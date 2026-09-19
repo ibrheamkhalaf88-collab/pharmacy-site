@@ -450,6 +450,28 @@ html, body { overflow-x: hidden; }
   word-break: break-word;
 }
 
+/* === شريط أقسام المنتجات — تحريك أفقي (يمين/يسار) === */
+.products-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: var(--surface-container);
+  padding: 4px;
+  border-radius: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  touch-action: pan-x;
+  min-width: 0;
+}
+.products-strip::-webkit-scrollbar { display: none; }
+.products-strip .product-tab-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 /* === PRODUCTS GRID — موحّد (يتجاوز كل القواعد السابقة) === */
 /* Mobile-first: 2 cols هاتف صغير، 4 cols هاتف كبير/تابلت صغير */
 .products-grid {
