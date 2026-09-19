@@ -439,14 +439,39 @@ button { cursor:pointer; font-family:inherit }
   background:var(--green-700); color:#fff; border-color:var(--green-700);
 }
 
-/* ═══ PRODUCT CARDS — Drop-in staggered entrance ═══ */
-.products-grid {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
+/* ===== منع الـ overflow الأفقي =====
+   عناصر الزخرفة (absolute w-96 … خارج الشاشة) وعناصر epic-word
+   أثناء الحركة تتمدد خارج الحواف فتعمل سكرول أفقي على الجوال.
+   حلها: إخفاء الفائض أفقياً على الجذر + عدم كسر الكلمات */
+html, body { overflow-x: hidden; }
+.epic-word {
+  display: inline-block;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
-/* Base hidden state for all product cards */
+/* === PRODUCTS GRID — موحّد (يتجاوز كل القواعد السابقة) === */
+/* Mobile-first: 2 cols هاتف صغير، 4 cols هاتف كبير/تابلت صغير */
+.products-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  /* الشبكة تغطي الصفّ كاملاً داخل الـ flex الذي يضمّ العنوان والتبويبات —
+     بدونها تنكمش لعرض المحتوى (بضعة بكسل) فيمتلئ القسم فضاءً أبيض */
+  flex-basis: 100%;
+  flex-shrink: 0;
+}
+@media (min-width: 560px) {
+  .products-grid { grid-template-columns: repeat(4, 1fr); } /* grid-cols-4 الجوال الكبير */
+}
+@media (min-width: 768px) {
+  .products-grid { grid-template-columns: repeat(5, 1fr); gap: 16px; }
+}
+@media (min-width: 1024px) {
+  .products-grid { grid-template-columns: repeat(7, 1fr); gap: 20px; } /* lg:grid-cols-7 اللابتوب */
+}
+
+/* ═══ PRODUCT CARDS — Drop-in staggered entrance ═══ */
 .products-grid .product-card {
   opacity: 0;
   transform: translateY(40px) scale(0.96);
@@ -460,11 +485,11 @@ button { cursor:pointer; font-family:inherit }
 
 /* Alternating sides: odd from right, even from left — adds hand-placed feel */
 .products-grid .product-card:nth-child(odd) {
-  transform: translateY(40px) scale(0.96) translateX(-8px);
+  transform: translateY(40px) scale(0.96) translateX(-4px);
 }
 
 .products-grid .product-card:nth-child(even) {
-  transform: translateY(40px) scale(0.96) translateX(8px);
+  transform: translateY(40px) scale(0.96) translateX(4px);
 }
 
 /* Reveal state — JS adds .reveal, CSS transitions to natural state */
@@ -855,46 +880,6 @@ button { cursor:pointer; font-family:inherit }
 }
 
 /* Product cards: subtle stagger, alternating sides + drop */
-.products-grid {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(3, 1fr);
-}
-@media (min-width: 1024px) {
-  .products-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
-@media (min-width: 640px) and (max-width: 1023px) {
-  .products-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.products-grid .product-card {
-  opacity: 0;
-  transform: translateY(40px) scale(0.96);
-  filter: blur(2px);
-  transition:
-    opacity 0.55s cubic-bezier(.2,.7,.2,1),
-    transform 0.55s cubic-bezier(.2,.7,.2,1),
-    filter 0.4s ease;
-  will-change: opacity, transform, filter;
-}
-
-.products-grid .product-card:nth-child(odd) {
-  transform: translateY(40px) scale(0.96) translateX(-6px);
-}
-
-.products-grid .product-card:nth-child(even) {
-  transform: translateY(40px) scale(0.96) translateX(6px);
-}
-
-.products-grid .product-card.reveal {
-  opacity: 1;
-  transform: none;
-  filter: blur(0);
-}
 
 /* Service cards: drop with slight rotation */
 .services-grid .service-card {
@@ -1075,7 +1060,6 @@ button { cursor:pointer; font-family:inherit }
   .hero-visual-inner { display:none }
   .services-grid { grid-template-columns:1fr }
   .categories-grid { grid-template-columns:repeat(2,1fr) }
-  .products-grid { grid-template-columns:repeat(2,1fr) }
   .testimonials-grid { grid-template-columns:1fr }
   .contact-grid { grid-template-columns:1fr }
   .footer-grid { grid-template-columns:1fr 1fr; gap:24px }
@@ -1093,7 +1077,6 @@ button { cursor:pointer; font-family:inherit }
   .hero-cta-row a { text-align:center; justify-content:center }
   .services-grid { grid-template-columns:1fr }
   .categories-grid { grid-template-columns:1fr 1fr }
-  .products-grid { grid-template-columns:1fr }
   .footer-grid { grid-template-columns:1fr }
   .counters-grid { grid-template-columns:1fr 1fr }
   .about-grid { grid-template-columns:1fr }
