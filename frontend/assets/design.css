@@ -34,7 +34,6 @@ body {
   color:var(--gray-900);
   background:var(--white);
   line-height:1.6;
-  overflow-x:hidden;
 }
 p { max-inline-size:68ch; line-height:1.7 }
 a { text-decoration:none; color:inherit }
@@ -443,7 +442,6 @@ button { cursor:pointer; font-family:inherit }
    عناصر الزخرفة (absolute w-96 … خارج الشاشة) وعناصر epic-word
    أثناء الحركة تتمدد خارج الحواف فتعمل سكرول أفقي على الجوال.
    حلها: إخفاء الفائض أفقياً على الجذر + عدم كسر الكلمات */
-html, body { overflow-x: hidden; }
 .epic-word {
   display: inline-block;
   overflow-wrap: anywhere;

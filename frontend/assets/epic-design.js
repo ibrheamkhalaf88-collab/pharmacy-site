@@ -210,7 +210,7 @@
   }
 
   // ═══════════════════════════════════════════
-  // 4. SECTION FADE-UP REVEALS
+  // 4. SECTION FADE-UP REVEALS (Now Slide-in from sides)
   // ═══════════════════════════════════════════
   if (!reduced) {
     // Reveal paragraph text, labels, and spans inside sections
@@ -221,20 +221,25 @@
       '#hours-location-section p',
       '#contact-section p',
     ];
+    let counter = 0;
     revealSelectors.forEach((sel) => {
       document.querySelectorAll(sel).forEach((el) => {
         // Skip if inside a word-split h2
         if (el.closest('.epic-word') || el.dataset.revealed) return;
         if (el.textContent.trim().length < 5) return;
         el.dataset.revealed = '1';
+        
+        const xOffset = (counter % 2 === 0) ? 60 : -60;
+        counter++;
+
         gsap.fromTo(el,
-          { y: 40, autoAlpha: 0, filter: 'blur(6px)' },
+          { x: xOffset, autoAlpha: 0, filter: 'blur(6px)' },
           {
-            y: 0,
+            x: 0,
             autoAlpha: 1,
             filter: 'blur(0px)',
-            duration: 0.7,
-            ease: 'expo.out',
+            duration: 0.8,
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: el,
               start: 'top 85%',
@@ -254,10 +259,10 @@
     if (flashCards.length) {
       flashCards.forEach((c) => { c.style.transition = 'none'; });
       gsap.fromTo(flashCards,
-        { clipPath: 'inset(0 0 100% 0)', y: 70, autoAlpha: 0.4 },
+        { clipPath: 'inset(0 0 100% 0)', x: gsap.utils.wrap([60, -60]), autoAlpha: 0.4 },
         {
           clipPath: 'inset(0 0 0% 0)',
-          y: 0,
+          x: 0,
           autoAlpha: 1,
           stagger: 0.14,
           duration: 1,
@@ -286,9 +291,9 @@
     if (serviceCards.length) {
       serviceCards.forEach((c) => { c.style.transition = 'none'; });
       gsap.fromTo(serviceCards,
-        { y: 80, autoAlpha: 0, scale: 0.9, rotate: gsap.utils.wrap([-1.5, 1.2, -0.8]) },
+        { x: gsap.utils.wrap([80, -80]), autoAlpha: 0, scale: 0.9, rotate: gsap.utils.wrap([-1.5, 1.2, -0.8]) },
         {
-          y: 0,
+          x: 0,
           autoAlpha: 1,
           scale: 1,
           rotate: 0,
