@@ -25,7 +25,7 @@ const WhatsAppOrder = {
     lines.push('_رقم الهاتف:_ ');
     lines.push('');
     lines.push('صيدلية السلاق — شارع الجلاء');
-    lines.push('مفتوح ٧ صباحًا حتى ١١ مساءً');
+    lines.push('مفتوح 24 ساعة يومياً');
 
     return lines.join('\n');
   },

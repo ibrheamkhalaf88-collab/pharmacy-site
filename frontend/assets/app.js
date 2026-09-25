@@ -179,6 +179,41 @@ document.addEventListener('DOMContentLoaded', () => {
   const defaultImage = '/assets/img/medicine.svg';
 
   // ── filterProducts (called from index.html tabs) ──
+  function escHtml(v) {
+    return String(v ?? '').replace(/[&<>"']/g, c => (
+      { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    ));
+  }
+
+  // ── عروض اليوم (Flash Deals) — منتجات حقيقية في DB تُرسَل عبر /api/orders ──
+  window.FLASH_DEALS = [
+    { id: 17, name: 'جهاز قياس ضغط الدم الرقمي الذكي', price: 149, category: 'أدوات', img: '/assets/img/tools.svg' },
+    { id: 18, name: 'باقة المناعة الشاملة (C + Zinc + D3)', price: 110, category: 'فيتامين', img: '/assets/img/vitamins.svg' },
+    { id: 19, name: 'سيروم التجديد المركز بالنياسيناميد 10%', price: 95, category: 'بشرة', img: '/assets/img/skin.svg' },
+    { id: 20, name: 'طقم فحص السكر الدقيق مع علبة شرائط', price: 88, category: 'أدوات', img: '/assets/img/tools.svg' },
+  ];
+
+  window.__salaqProducts = [];
+
+  function normalizeName(s) {
+    return String(s || '')
+      .replace(/[\u064B-\u0652\u0640]/g, '')
+      .replace(/[أإآ]/g, 'ا')
+      .replace(/ة/g, 'ه')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
+  }
+
+  function findProductByName(name) {
+    const target = normalizeName(name);
+    const list = window.__salaqProducts || [];
+    if (!target || !list.length) return null;
+    return list.find(p => normalizeName(p.name) === target)
+      || list.find(p => normalizeName(p.name).includes(target))
+      || null;
+  }
+
   window.filterProducts = function(category, btnEl) {
     if (btnEl) {
       document.querySelectorAll('.product-tab-btn').forEach(b => {
@@ -214,21 +249,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('/api/products');
       const data = await res.json();
       const products = data.products || [];
+      window.__salaqProducts = products;
 
       productsGrid.innerHTML = products.map((p, idx) => {
         const cat = p.category || 'أخرى';
-        const imgSrc = p.image || categoryImages[cat] || defaultImage;
-        const imgAlt = cat === 'أدوات' ? 'أدوات طبية' : cat;
+        const catClass = escHtml(cat).replace(/\s/g, '');
+        const imgSrc = escHtml(p.image || categoryImages[cat] || defaultImage);
+        const imgAlt = escHtml(cat === 'أدوات' ? 'أدوات طبية' : cat);
+        const price = Number(p.price) || 0;
         // Stagger delay: each card gets idx * 0.08s (80ms apart)
         const stagger = (idx % 12) * 0.08;
         return `
-        <div class="product-card ${cat.replace(/\s/g,'')}" data-category="${cat}" style="opacity:0; transform:translateY(40px) scale(0.96) ${idx % 2 ? 'translateX(-6px)' : 'translateX(6px)'}; transition-delay:${stagger}s">
-          <img src="${imgSrc}" alt="${imgAlt}" class="product-img" loading="lazy" onerror="this.src='${defaultImage}'">
+        <div class="product-card ${catClass}" data-category="${escHtml(cat)}" style="opacity:0; transform:translateY(40px) scale(0.96) ${idx % 2 ? 'translateX(-6px)' : 'translateX(6px)'}; transition-delay:${stagger}s">
+          <img src="${imgSrc}" alt="${imgAlt}" class="product-img" loading="lazy" onerror="this.src='${escHtml(defaultImage)}'">
           <div class="product-body">
-            <h3 class="product-name">${p.name}</h3>
-            <p class="product-desc">${p.desc}</p>
-            <div class="product-price">${p.price.toFixed(2)} <span>شيكل</span></div>
-            <button class="btn-in-cart" onclick="addToCart(${JSON.stringify(p).replace(/"/g,'&quot;')})">
+            <h3 class="product-name">${escHtml(p.name)}</h3>
+            <p class="product-desc">${escHtml(p.desc)}</p>
+            <div class="product-price">${price.toFixed(2)} <span>شيكل</span></div>
+            <button class="btn-in-cart" onclick="addToCart(__salaqProducts[${idx}])">
               أضف للطلب
             </button>
           </div>
@@ -265,21 +303,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Keep inline (static cards) addToCart(this, name) working alongside
-  // dynamic addToCart(productObj) — dispatch by argument type.
-  const legacyAddToCart = (typeof window.addToCart === 'function') ? window.addToCart : null;
-  window.addToCart = function(productOrBtn, productName) {
-    if (productOrBtn && productOrBtn.tagName) {
-      if (legacyAddToCart) return legacyAddToCart(productOrBtn, productName);
-      if (window.showToast) window.showToast('تمت الإضافة: ' + (productName || ''));
-      return;
-    }
-    const product = productOrBtn;
-    if (typeof Cart !== 'undefined' && product && product.id) {
-      Cart.add(product);
-    }
-    const btn = (typeof event !== 'undefined' && event && event.target) ? event.target.closest('.btn-in-cart') : null;
-    if (btn) {
+  // addToCart موحّدة: تستقبل كائناً (من الشبكة أو FLASH_DEALS) أو زراً قديماً
+  // addToCart(this, 'name') — تبحث عنه في الكتالوج أو تفتح واتساب كحل احتياطي.
+  function addProductToCart(product, btn) {
+    if (!product || !product.id) return;
+    if (typeof Cart !== 'undefined') Cart.add(product);
+    if (window.showToast) window.showToast('تمت إضافة: ' + (product.name || '') + ' إلى طلبك');
+    if (btn && btn.classList.contains('btn-in-cart')) {
       btn.textContent = '✓ في السلة';
       btn.disabled = true;
       setTimeout(() => {
@@ -287,6 +317,25 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.disabled = false;
       }, 1500);
     }
+  }
+
+  window.addToCart = function(productOrBtn, productName) {
+    const fromEvent = (typeof event !== 'undefined' && event && event.target) ? event.target : null;
+    if (productOrBtn && productOrBtn.tagName) {
+      const name = (productName || '').trim();
+      const product = findProductByName(name);
+      if (product) {
+        addProductToCart(product, productOrBtn.closest('button'));
+      } else {
+        const url = 'https://wa.me/9705952224444?text=' +
+          encodeURIComponent('أرغب بطلب: ' + name + ' من صيدلية السلاق');
+        window.open(url, '_blank', 'noopener');
+        if (window.showToast) window.showToast('لا يتوفر هذا العرض بالنظام — تم فتح واتساب', 'info');
+      }
+      return;
+    }
+    const btn = fromEvent ? fromEvent.closest('.btn-in-cart') || fromEvent.closest('button') : null;
+    addProductToCart(productOrBtn, btn);
   };
 
   function applyFilter(category) {

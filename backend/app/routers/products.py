@@ -32,7 +32,6 @@ def add_product(body: ProductIn, _: dict = Depends(require_admin)):
         "price": round(body.price, 2),
         "icon": body.icon.strip() or "medical",
         "image": body.image.strip(),
-        "active": True,
     }
     return {"product": db.create_product(data), "status": "created"}
 

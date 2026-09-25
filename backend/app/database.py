@@ -141,7 +141,7 @@ def update_settings(patch: dict) -> dict:
             "address": "غزة، جنوب المول البندا",
             "phone": "9705952224444",
             "whatsapp_number": "9705952224444",
-            "hours": "7 صباحًا - 11 مساءً",
+            "hours": "24 ساعة",
             "whatsapp_api_token": "",
             "whatsapp_phone_id": "",
             "whatsapp_base_url": "https://graph.facebook.com/v17.0",

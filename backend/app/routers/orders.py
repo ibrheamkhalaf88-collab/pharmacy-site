@@ -1,5 +1,8 @@
 """Orders router — إنشاء عام، إدارة محمية بـ admin auth."""
-from fastapi import APIRouter, Depends, HTTPException
+import time
+from collections import defaultdict
+
+from fastapi import APIRouter, Depends, HTTPException, Request
 
 from .. import database as db
 from ..deps import require_admin
@@ -9,12 +12,38 @@ from ..services.whatsapp import build_order_message, send_via_cloud_api, whatsap
 
 ORDER_STATUSES = {"pending", "confirmed", "preparing", "dispatched", "delivered", "cancelled"}
 
+# ── Rate limit بسيط (في الذاكرة): 6 طلبات / دقيقة / IP ──
+_ORDER_WINDOW = 60.0
+_ORDER_MAX = 6
+_order_log = defaultdict(list)
+
+
+def _client_ip(request: Request) -> str:
+    fwd = request.headers.get("x-forwarded-for")
+    if fwd:
+        return fwd.split(",")[0].strip()
+    return request.client.host if request.client else "?"
+
+
+def _check_order_rate_limit(request: Request) -> None:
+    now = time.monotonic()
+    key = _client_ip(request)
+    recent = [t for t in _order_log[key] if now - t < _ORDER_WINDOW]
+    if len(recent) >= _ORDER_MAX:
+        raise HTTPException(
+            status_code=429,
+            detail="طلبات كثيرة جداً — حاول مرة أخرى بعد دقيقة",
+        )
+    _order_log[key] = recent + [now]
+
+
 router = APIRouter(prefix="/orders", tags=["orders"])
 
 
 @router.post("", status_code=201)
-def create_order(body: OrderIn):
+def create_order(body: OrderIn, request: Request):
     """إنشاء طلب — السعر يُحسب من قاعدة البيانات سيرفر-سايد (لا يُصدَّق من المتصفح)."""
+    _check_order_rate_limit(request)
     items = []
     for item in body.items:
         product = db.get_product(item.product_id)

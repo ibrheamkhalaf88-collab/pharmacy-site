@@ -223,7 +223,7 @@
             </div>
             <span class="line-through text-on-surface-variant/60 font-label-sm text-label-sm">270 شيكل</span>
           </div>
-          <button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary py-2.5 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(this, 'جهاز قياس الضغط الذكي')" type="button">
+          <button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary py-2.5 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(FLASH_DEALS[0])" type="button">
             <span class="material-symbols-outlined text-lg">bolt</span>
             <span class="">اغتنم العرض الآن</span>
           </button>
@@ -273,7 +273,7 @@
             </div>
             <span class="line-through text-on-surface-variant/60 font-label-sm text-label-sm">185 شيكل</span>
           </div>
-          <button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary py-2.5 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(this, 'باقة المناعة الشاملة')" type="button">
+          <button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary py-2.5 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(FLASH_DEALS[1])" type="button">
             <span class="material-symbols-outlined text-lg">bolt</span>
             <span class="">اغتنم العرض الآن</span>
           </button>
@@ -323,7 +323,7 @@
             </div>
             <span class="line-through text-on-surface-variant/60 font-label-sm text-label-sm">190 شيكل</span>
           </div>
-          <button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary py-2.5 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(this, 'سيروم التجديد المركز')" type="button">
+          <button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary py-2.5 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(FLASH_DEALS[2])" type="button">
             <span class="material-symbols-outlined text-lg">bolt</span>
             <span class="">اغتنم العرض الآن</span>
           </button>
@@ -373,7 +373,7 @@
             </div>
             <span class="line-through text-on-surface-variant/60 font-label-sm text-label-sm">135 شيكل</span>
           </div>
-          <button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary py-2.5 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(this, 'طقم فحص السكر الذكي')" type="button">
+          <button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary py-2.5 rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="addToCart(FLASH_DEALS[3])" type="button">
             <span class="material-symbols-outlined text-lg">bolt</span>
             <span class="">اغتنم العرض الآن</span>
           </button>
@@ -403,10 +403,8 @@
     <div class="products-grid" id="productsGrid"></div>
   </div>
 </section>
-<!-- 2. ABOUT US SECTION WITH INTERACTIVE METRICS -->
-
 <!-- 3. SERVICES SECTION (6 Bespoke Interactive Cards) -->
-<section class="w-full py-space-xl bg-surface-container-low" id="services-section">
+<section class="w-full py-space-xl bg-surface" id="services-section">
 <div class="max-w-7xl mx-auto px-margin-sm lg:px-margin">
 <!-- Section Header -->
 <div class="text-center max-w-3xl mx-auto mb-space-xl flex flex-col items-center gap-space-xs">
@@ -539,14 +537,8 @@
 </div>
 </div>
 </section>
-<!-- 4. FEATURED PRODUCTS CATEGORIES WITH INTERACTIVE TABS -->
-
-<!-- 5. WHY CHOOSE US (لماذا يثق بنا الجميع؟) -->
-
-<!-- 6. TESTIMONIALS SECTION (آراء وتجارب العملاء) -->
-
 <!-- 7. WORKING HOURS & INTERACTIVE LOCATION -->
-<section class="w-full py-space-xl bg-surface" id="hours-location-section">
+<section class="w-full py-space-xl bg-surface-container-low" id="hours-location-section">
 <div class="max-w-7xl mx-auto px-margin-sm lg:px-margin">
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
 <!-- Schedule and Contact Details -->
@@ -622,7 +614,7 @@
 </div>
 </section>
 <!-- 8. CONTACT FORM & INSTANT CHANNELS (تواصل معنا بسهولة) -->
-<section class="w-full py-space-xl bg-surface-container-low" id="contact-section">
+<section class="w-full py-space-xl bg-surface" id="contact-section">
 <div class="max-w-7xl mx-auto px-margin-sm lg:px-margin">
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
 <!-- Left Side: Channels & Direct Actions -->
@@ -729,60 +721,6 @@
 </section>
 <!-- MICRO INTERACTIVITY SCRIPT -->
 <script>
-    // Product Filtering Logic — works with both static and dynamic product cards
-    function filterProducts(category, btn) {
-      const buttons = document.querySelectorAll('.product-tab-btn');
-      buttons.forEach(b => {
-        b.classList.remove('bg-primary', 'text-on-primary', 'font-bold');
-        b.classList.add('text-on-surface-variant');
-      });
-      if (btn) {
-        btn.classList.add('bg-primary', 'text-on-primary', 'font-bold');
-        btn.classList.remove('text-on-surface-variant');
-      }
-
-      // Filter both static (inline) and dynamic (API-loaded) product cards
-      const cards = document.querySelectorAll('.product-card');
-      cards.forEach(card => {
-        const cat = card.getAttribute('data-category') || '';
-        if (category === 'all' || cat === category) {
-          card.style.display = '';
-          card.style.opacity = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    // Add to Cart Micro-interaction
-    function addToCart(button, productName) {
-      const originalHtml = button.innerHTML;
-      button.innerHTML = '<span class="material-symbols-outlined text-lg animate-spin">sync</span><span>جاري التجهيز...</span>';
-      button.disabled = true;
-
-      setTimeout(() => {
-        button.innerHTML = '<span class="material-symbols-outlined text-lg">done</span><span>تمت الإضافة!</span>';
-        button.classList.remove('bg-primary');
-        button.classList.add('bg-secondary');
-
-        // Show toast
-        const toast = document.getElementById('cart-toast');
-        const toastTitle = document.getElementById('cart-toast-title');
-        toastTitle.innerText = 'تمت إضافة ' + productName;
-        toast.classList.remove('translate-y-32', 'opacity-0');
-        toast.classList.add('translate-y-0', 'opacity-100');
-
-        setTimeout(() => {
-          toast.classList.remove('translate-y-0', 'opacity-100');
-          toast.classList.add('translate-y-32', 'opacity-0');
-          button.innerHTML = originalHtml;
-          button.classList.add('bg-primary');
-          button.classList.remove('bg-secondary');
-          button.disabled = false;
-        }, 3500);
-      }, 500);
-    }
-
     // Form Submission & Upload simulation
     function handleFileUpload(input) {
       if (input.files && input.files[0]) {
@@ -844,7 +782,7 @@
       <span class="cart-total">المجموع: <span id="cartTotal">0.00</span> شيكل · <span id="cartCount">0</span> منتج</span>
       <div class="cart-actions">
         <button class="cart-btn clear" id="clearCart" type="button">مسح</button>
-        <a class="cart-btn whatsapp" id="checkoutBtn" href="#" target="_blank" rel="noopener">إتمام عبر واتساب</a>
+        <button class="cart-btn whatsapp" id="checkoutBtn" type="button">إتمام الطلب</button>
       </div>
     </div>
   </div>
@@ -852,6 +790,41 @@
 <!-- Cart toast (used by inline addToCart) -->
 <div id="cart-toast" class="translate-y-32 opacity-0 transition-all duration-300" style="position:fixed;bottom:96px;left:0;right:0;margin:0 auto;width:fit-content;z-index:9999">
   <div id="cart-toast-title" style="background:#1F4D39;color:#fff;padding:12px 24px;border-radius:12px;font-weight:700;font-size:14px">تمت الإضافة</div>
+</div>
+<!-- Checkout modal (submit order via /api/orders) -->
+<div id="checkout-modal" class="hidden fixed inset-0 z-[80] items-center justify-center p-4" style="background:rgba(13,27,22,0.55)">
+  <div class="w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-2xl p-space-lg flex flex-col gap-space-md max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between">
+      <h3 class="font-headline-lg text-headline-lg text-on-surface font-bold">إتمام الطلب</h3>
+      <button type="button" id="checkoutCancel" class="w-9 h-9 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center hover:bg-surface-container-high transition-colors font-label-lg" aria-label="إغلاق">&times;</button>
+    </div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">أدخل بياناتك وسنكمل الطلب عبر واتساب، مع تأكيد الفرع الأقرب لك.</p>
+    <form id="checkout-form" class="flex flex-col gap-space-md">
+      <div class="flex flex-col gap-1">
+        <label class="font-label-md text-label-md text-on-surface font-semibold" for="co-name">الاسم الكامل <span class="text-error">*</span></label>
+        <input class="w-full px-space-md py-2.5 rounded-lg bg-surface text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest transition-all" id="co-name" type="text" required placeholder="مثال: أحمد محمد">
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="font-label-md text-label-md text-on-surface font-semibold" for="co-phone">رقم الجوال / واتساب <span class="text-error">*</span></label>
+        <input class="w-full px-space-md py-2.5 rounded-lg bg-surface text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest transition-all" id="co-phone" type="tel" dir="ltr" required placeholder="059xxxxxxxx" maxlength="15">
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="font-label-md text-label-md text-on-surface font-semibold" for="co-notes">ملاحظات</label>
+        <textarea class="w-full px-space-md py-2.5 rounded-lg bg-surface text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest transition-all resize-none" id="co-notes" rows="2" placeholder="اختياري: تفاصيل إضافية أو عنوان التوصيل..."></textarea>
+      </div>
+      <div class="flex items-center justify-between font-label-md text-label-md">
+        <span class="text-on-surface-variant">المجموع</span>
+        <span class="font-bold text-primary" id="co-total">0.00 شيكل</span>
+      </div>
+      <button class="w-full bg-primary hover:bg-primary-container text-on-primary py-3.5 rounded-lg font-label-lg text-label-lg font-bold flex items-center justify-center gap-space-xs shadow-md transition-all" id="checkoutSubmit" type="submit">
+        <span class="material-symbols-outlined text-xl">call</span><span>إرسال الطلب عبر واتساب</span>
+      </button>
+    </form>
+    <p class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">بإرسالك الطلب يُسجّل في النظام ويتواصل معك الصيدلي مباشرة.</p>
+    <div class="hidden items-center gap-space-sm bg-secondary-container text-on-secondary-container rounded-xl p-space-md font-body-sm text-body-sm" id="checkout-error">
+      <span class="material-symbols-outlined text-error">error</span><span id="checkout-error-msg"></span>
+    </div>
+  </div>
 </div>
 <footer class="w-full bg-surface-container-low text-on-surface pt-space-xl pb-space-lg shadow-[0_-1px_8px_rgba(6,78,59,0.03)]"><div class="max-w-7xl mx-auto px-margin-sm lg:px-margin"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-space-xl"><div class="flex flex-col gap-space-md"><div class="flex items-center gap-space-sm"><img alt="شعار صيدلية سلاق SALLAQ PHARMACY" class="h-11 w-auto object-contain rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp2BQSNPw1t1gI2KGZYr0d-O3uxfBgDAqsFy9rXVlQWkdJAQYfaGLkwXi9vzO0sTvrAGsnMMSGui7tyeX1urOFRp0XRM4RM8ami2VCvvlArkLgrisBfSoDuGof8a6d8hEa-EEhb09ziSPwE4ugH0hgi_cEBS1qHVsRshtYFpdaI-En4Frn0zr8-ZsmjGlocBa--VQwB5cG0IJv97m7X_4bYR6Wi5LmcSW0bDae0seC0v28dhvyg7X3Ev79JeQbG9ppGu4"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary font-bold">صيدلية سلاق</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">SALLAQ PHARMACY</span></div></div><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">نلتزم بتقديم رعاية صيدلانية نموذجية تتجاوز صرف الدواء لتشمل الإرشاد الدوائي المتكامل، وصرف الوصفات المعتمدة، والفحوصات الوقائية الدورية.</p><div class="inline-flex items-center gap-space-xs px-space-sm py-1.5 rounded-lg bg-surface-container-high text-primary font-label-sm text-label-sm"><span class="material-symbols-outlined text-base">verified_user</span><span class="">مرخصة من وزارة الصحة الفلسطينية</span></div></div><div class="flex flex-col gap-space-md"><h3 class="font-headline-sm text-headline-sm text-primary">روابط سريعة</h3><ul class="flex flex-col gap-space-xs font-body-sm text-body-sm text-on-surface-variant"><li class="flex items-center gap-space-xs hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm rotate-180">arrow_back</span><a data-path="about-us" href="#" class="">عن صيدلية سلاق (Sallaq)</a></li><li class="flex items-center gap-space-xs hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm rotate-180">arrow_back</span><a data-path="services" href="#">الاستشارات الدوائية والخدمات</a></li><li class="flex items-center gap-space-xs hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm rotate-180">arrow_back</span><a data-path="featured-products" href="#">كتالوج المنتجات والمكملات</a></li><li class="flex items-center gap-space-xs hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm rotate-180">arrow_back</span><a data-path="branches-and-hours" href="#">فروعنا ونقاط التوزيع المباشر</a></li><li class="flex items-center gap-space-xs hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm rotate-180">arrow_back</span><a data-path="contact-us" href="#">طلب إعادة صرف وصفة</a></li></ul></div><div class="flex flex-col gap-space-md"><h3 class="font-headline-sm text-headline-sm text-primary">ساعات العمل والخدمة</h3><div class="flex flex-col gap-space-sm font-body-sm text-body-sm text-on-surface-variant"><div class="flex items-start gap-space-xs"><span class="material-symbols-outlined text-primary text-base mt-0.5">access_time</span><div><p class="font-label-md text-label-md text-on-surface">الفروع الرئيسية:</p><p class="">السبت - الخميس: 8:00 ص - 12:00 ليلاً</p><p class="">الجمعة: 1:00 ظهراً - 12:00 ليلاً</p></div></div><div class="flex items-start gap-space-xs"><span class="material-symbols-outlined text-tertiary text-base mt-0.5">emergency</span><div><p class="font-label-md text-label-md text-on-surface">خدمة الطوارئ وصرف الوصفات:</p><p class="text-tertiary font-label-sm text-label-sm">متاحة 24/7 عبر الخط الساخن والواتساب</p></div></div></div></div><div class="flex flex-col gap-space-md"><h3 class="font-headline-sm text-headline-sm text-primary">بيانات الاتصال المباشر</h3><ul class="flex flex-col gap-space-sm font-body-sm text-body-sm text-on-surface-variant"><li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-base">call</span><span class="font-label-md text-label-md text-on-surface" dir="ltr">+970 59 522 4444</span></li><li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-base">photo_camera</span><a class="font-body-sm text-body-sm hover:text-primary transition-colors" dir="ltr" href="https://www.instagram.com/sallaqpharmacy/" rel="noopener noreferrer" target="_blank">@sallaqpharmacy</a></li><li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-base">pin_drop</span><span class="">فلسطين، غزة - شارع الجلاء</span></li></ul><div class="pt-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant block mb-space-xs">قنوات التواصل المهني:</span><div class="flex items-center gap-space-sm text-on-surface-variant"><a aria-label="تواصل واتساب" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors" href="https://wa.me/9705952224444" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-lg">chat</span></a><a aria-label="صفحتنا على إنستغرام" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors" href="https://www.instagram.com/sallaqpharmacy/" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-lg">photo_camera</span></a><a aria-label="موقعنا الجغرافي" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors" href="https://www.google.com/maps/search/?api=1&amp;query=Al-Jalaa+Street+Gaza" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-lg">location_on</span></a><a aria-label="المساعدة الهاتفية" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors" href="tel:+9705952224444"><span class="material-symbols-outlined text-lg">call</span></a></div></div></div></div><div class="pt-space-md border-t border-surface-container-highest/60 flex flex-col sm:flex-row items-center justify-between gap-space-sm font-label-sm text-label-sm text-on-surface-variant"><p class="">© 2026 صيدلية سلاق (SALLAQ PHARMACY). جميع الحقوق محفوظة.</p><div class="flex items-center gap-space-md"><span class="">سياسة الخصوصية الطبية</span><span class="">شروط صرف الأدوية</span><span class="">دليل المريض الدوائي</span></div></div></div></footer><div class="fixed bottom-6 left-6 z-50 flex items-center gap-space-xs"><a aria-label="تواصل مع الصيدلي عبر واتساب" class="pulse-whatsapp flex items-center gap-space-xs bg-primary hover:bg-primary-container text-on-primary px-space-md py-3 rounded-full shadow-[0_10px_25px_-5px_rgba(0,105,72,0.4)] transition-all" href="https://wa.me/9705952224444" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-2xl leading-none text-primary-fixed">forum</span><span class="font-label-md text-label-md hidden md:inline font-bold">محادثة الصيدلي المناوب</span></a></div>
 

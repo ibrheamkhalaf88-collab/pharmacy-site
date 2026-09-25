@@ -1,6 +1,7 @@
 /**
  * Cart module — السلة
- * يحفظ المنتجات ويحسب المجموع
+ * يحفظ المنتجات ويحسب المجموع، ويرسل الطلب عبر POST /api/orders
+ * ثم يفتح رابط الواتساب الذي يولّده الخادم (الطلب يُسجّل في DB).
  */
 const Cart = {
   _items: [],
@@ -52,6 +53,12 @@ const Cart = {
     return this._items.length === 0;
   },
 
+  escHtml(v) {
+    return String(v ?? '').replace(/[&<>"']/g, c => (
+      { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    ));
+  },
+
   render() {
     const itemsEl = document.getElementById('cartItems');
     const totalEl = document.getElementById('cartTotal');
@@ -71,11 +78,11 @@ const Cart = {
     if (clearBtn) clearBtn.style.display = 'inline-flex';
 
     itemsEl.innerHTML = this._items.map(item => `
-      <div class="cart-item" data-id="${item.id}">
+      <div class="cart-item" data-id="${this.escHtml(item.id)}">
         <svg class="cart-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-        <span class="cart-item-name">${item.name}</span>
-        <span class="cart-item-qty">×${item.qty}</span>
-        <button class="cart-item-remove" data-id="${item.id}" title="إزالة">
+        <span class="cart-item-name">${this.escHtml(item.name)}</span>
+        <span class="cart-item-qty">&times;${item.qty}</span>
+        <button class="cart-item-remove" data-id="${this.escHtml(item.id)}" title="إزالة">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
       </div>
@@ -83,8 +90,104 @@ const Cart = {
 
     if (totalEl) totalEl.textContent = this.getTotal().toFixed(2);
     if (countEl) countEl.textContent = this.getItemCount();
-    if (checkoutBtn && typeof WhatsAppOrder !== 'undefined') {
-      checkoutBtn.href = WhatsAppOrder.getURL();
+  },
+
+  // ── مودال إتمام الطلب ──
+  getModal() {
+    return document.getElementById('checkout-modal');
+  },
+
+  openCheckout() {
+    const modal = this.getModal();
+    if (!modal) {
+      if (window.showToast) window.showToast('تعذر فتح نموذج الطلب');
+      return;
+    }
+    if (this.isEmpty()) {
+      if (window.showToast) window.showToast('السلة فارغة — أضف منتجاً أولاً');
+      return;
+    }
+    const totalEl = document.getElementById('co-total');
+    if (totalEl) totalEl.textContent = this.getTotal().toFixed(2) + ' شيكل';
+    const err = document.getElementById('checkout-error');
+    if (err) { err.classList.add('hidden'); err.classList.remove('flex'); }
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    const nameEl = document.getElementById('co-name');
+    if (nameEl) nameEl.focus();
+  },
+
+  closeCheckout() {
+    const modal = this.getModal();
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  },
+
+  setModalError(msg) {
+    const err = document.getElementById('checkout-error');
+    const msgEl = document.getElementById('checkout-error-msg');
+    if (!err || !msgEl) return;
+    msgEl.textContent = msg;
+    err.classList.remove('hidden');
+    err.classList.add('flex');
+  },
+
+  async submitCheckout(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const name = String(document.getElementById('co-name').value || '').trim();
+    const phone = String(document.getElementById('co-phone').value || '').trim();
+    const notes = String(document.getElementById('co-notes').value || '').trim();
+    const digits = phone.replace(/\D/g, '');
+
+    if (name.length < 2) { this.setModalError('أدخل الاسم الكامل من فضلك'); return; }
+    if (digits.length < 9) { this.setModalError('أدخل رقم جوال صالح مثل 0591234567'); return; }
+
+    const submitBtn = document.getElementById('checkoutSubmit');
+    const originalLabel = submitBtn ? submitBtn.innerHTML : '';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="material-symbols-outlined text-lg animate-spin">sync</span><span>جاري إرسال الطلب...</span>';
+    }
+
+    try {
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customer_name: name,
+          customer_phone: phone,
+          notes: notes,
+          items: this._items.map(i => ({ product_id: i.id, quantity: i.qty })),
+        }),
+      });
+
+      if (!res.ok) {
+        let detail = 'حدث خطأ أثناء إرسال الطلب — حاول مرة أخرى';
+        try {
+          const errData = await res.json();
+          if (errData && errData.detail) detail = errData.detail;
+        } catch (_) { /* ignore parse errors */ }
+        this.setModalError(detail);
+        return;
+      }
+
+      const data = await res.json();
+      this.closeCheckout();
+      const url = (data && data.whatsapp_url) || '';
+      if (url) window.open(url, '_blank', 'noopener');
+      this.clear();
+      if (window.showToast) window.showToast('تم إرسال طلبك بنجاح — أكمل التأكيد عبر واتساب');
+    } catch (err) {
+      console.error('Order submission failed:', err);
+      if (!(window.navigator && window.navigator.onLine === false)) {
+        this.setModalError('تعذر الاتصال بالخادم — تأكد من الإنترنت ثم أعد المحاولة');
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalLabel;
+      }
     }
   },
 
@@ -102,6 +205,21 @@ const Cart = {
         this.clear();
       }
     });
+
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if (checkoutBtn) checkoutBtn.addEventListener('click', () => this.openCheckout());
+
+    const modal = this.getModal();
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) this.closeCheckout();
+      });
+      const cancelBtn = document.getElementById('checkoutCancel');
+      if (cancelBtn) cancelBtn.addEventListener('click', () => this.closeCheckout());
+    }
+
+    const form = document.getElementById('checkout-form');
+    if (form) form.addEventListener('submit', (e) => this.submitCheckout(e));
   }
 };
 
